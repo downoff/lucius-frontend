@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
+// Import our professional UI components
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
+import { Button } from '@/components/ui/button';
+
 const backendUrl = 'https://lucius-ai.onrender.com';
 
 function DashboardPage() {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
 
-    // useEffect is a hook that runs after the component mounts.
-    // It's the perfect place to fetch data.
     useEffect(() => {
         const fetchUserData = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                // This case is handled by ProtectedRoute, but as a fallback:
-                setLoading(false);
+                // This is handled by ProtectedRoute, but as a fallback
+                setIsLoading(false);
                 return;
             }
 
@@ -28,50 +30,81 @@ function DashboardPage() {
                 setUser(userData);
             } catch (error) {
                 console.error(error);
+                // In case of error, clear the bad token and redirect
+                localStorage.removeItem('token');
+                window.location.href = '/login';
             } finally {
-                setLoading(false);
+                setIsLoading(false);
             }
         };
 
         fetchUserData();
-    }, []); // The empty array [] means this runs only once when the page loads
+    }, []);
 
-    if (loading) {
-        return <article aria-busy="true">Loading your dashboard...</article>;
-    }
-
-    if (!user) {
-        return <p>Could not load user data. Please <Link to="/login">log in</Link> again.</p>;
-    }
-
-    return (
-        <article>
-            <hgroup>
-                <h1>Dashboard</h1>
-                <p>Welcome back, <strong>{user.name || user.email}</strong></p>
-            </hgroup>
-
-            <div className="grid">
-                <div>
-                    <h3>Your Plan</h3>
-                    <strong id="plan-status" style={{ fontSize: '1.5rem', color: user.isPro ? 'var(--primary-color)' : 'inherit' }}>
-                        {user.isPro ? 'Lucius Pro' : 'Basic'}
-                    </strong>
-                </div>
-                <div>
-                    <h3>Credits Remaining</h3>
-                    <strong id="user-credits" style={{ fontSize: '1.5rem' }}>
-                        {user.isPro ? 'Unlimited' : user.credits}
-                    </strong>
-                </div>
+    if (isLoading) {
+        return (
+            <div className="w-full max-w-2xl mx-auto py-12 animate-fadeIn">
+                <Card className="bg-slate-800/50 border-slate-700 text-white">
+                    <CardHeader>
+                        <CardTitle>Loading Dashboard...</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div className="flex justify-center items-center h-32">
+                            <div className="loader"></div>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
-            
-            {!user.isPro && (
-                <footer style={{ marginTop: '2rem' }}>
-                    <Link to="/pricing" role="button" className="contrast">Upgrade to Pro Now</Link>
-                </footer>
-            )}
-        </article>
+        );
+    }
+    
+    if (!user) {
+        return (
+             <div className="w-full max-w-2xl mx-auto py-12 animate-fadeIn">
+                <Card className="bg-slate-800/50 border-slate-700 text-white">
+                    <CardHeader>
+                        <CardTitle>Error</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <p>Could not load your user data. Please try logging in again.</p>
+                        <Link to="/login"><Button className="mt-4">Go to Login</Button></Link>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
+    // This is the main view when data has loaded successfully
+    return (
+        <div className="w-full max-w-2xl mx-auto py-12 animate-fadeIn">
+            <Card className="bg-slate-800/50 border-slate-700 text-white">
+                <CardHeader>
+                    <CardTitle className="text-2xl">Your Dashboard</CardTitle>
+                    <CardDescription>Welcome back, {user.name || user.email}</CardDescription>
+                </CardHeader>
+                <CardContent className="grid md:grid-cols-2 gap-6">
+                    <div className="bg-slate-900/50 p-4 rounded-lg">
+                        <Label className="text-slate-400">Your Plan</Label>
+                        <p className={`text-xl font-bold ${user.isPro ? 'text-purple-400' : 'text-white'}`}>
+                            {user.isPro ? 'Lucius Pro' : 'Basic'}
+                        </p>
+                    </div>
+                     <div className="bg-slate-900/50 p-4 rounded-lg">
+                        <Label className="text-slate-400">Credits Remaining</Label>
+                        <p className="text-xl font-bold">
+                            {user.isPro ? 'Unlimited' : user.credits}
+                        </p>
+                    </div>
+                </CardContent>
+                {!user.isPro && (
+                    <CardFooter>
+                        <Link to="/pricing" className="w-full">
+                            <Button className="w-full">Upgrade to Pro Now</Button>
+                        </Link>
+                    </CardFooter>
+                )}
+            </Card>
+        </div>
     );
 }
 
