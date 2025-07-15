@@ -56,12 +56,12 @@ function ImageGeneratorPage() {
             <Card className="bg-slate-800/50 border-slate-700 text-white">
                 <CardHeader>
                     <CardTitle className="text-2xl">AI Image Generator</CardTitle>
-                    <CardDescription>Describe the image you want to create. This is a Pro feature.</CardDescription>
+                    <CardDescription>Describe any image you can imagine. This is a Pro feature.</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleImageGeneration} className="space-y-4">
                         <div className="grid gap-2">
-                            <Label htmlFor="image-prompt">Image Prompt</Label>
+                            <Label htmlFor="image-prompt">Your Image Prompt</Label>
                             <Textarea 
                                 id="image-prompt" 
                                 placeholder="e.g., A photorealistic portrait of a cat wearing a tiny wizard hat" 
@@ -76,16 +76,19 @@ function ImageGeneratorPage() {
                         </Button>
                     </form>
 
-                    <div className="mt-6">
+                    <div className="mt-6 text-center">
                         {isLoading && (
-                            <div className="flex justify-center items-center h-64">
+                            <div className="flex flex-col justify-center items-center h-64">
                                 <div className="loader"></div>
+                                <p className="text-slate-400 mt-4">Generating your image... this can take up to a minute.</p>
                             </div>
                         )}
-                        {error && <p className="text-red-400 text-center">{error}</p>}
+                        {error && <p className="text-red-400">{error}</p>}
                         {imageUrl && (
-                            <div className="mt-4 border border-slate-700 rounded-lg p-2">
-                                <img src={imageUrl} alt="AI generated image" className="w-full h-auto rounded-md" />
+                            <div className="mt-4 border border-slate-700 rounded-lg p-2 bg-slate-900/50">
+                                <a href={imageUrl} target="_blank" rel="noopener noreferrer">
+                                    <img src={imageUrl} alt="AI generated image based on prompt" className="w-full h-auto rounded-md" />
+                                </a>
                             </div>
                         )}
                     </div>

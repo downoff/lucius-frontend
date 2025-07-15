@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // Import our professional UI components
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
 
+// This should be your LIVE backend URL
 const backendUrl = 'https://lucius-ai.onrender.com';
 
 function DashboardPage() {
@@ -15,7 +17,7 @@ function DashboardPage() {
         const fetchUserData = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                // This is handled by ProtectedRoute, but as a fallback
+                // This case is handled by our ProtectedRoute component
                 setIsLoading(false);
                 return;
             }
@@ -30,7 +32,7 @@ function DashboardPage() {
                 setUser(userData);
             } catch (error) {
                 console.error(error);
-                // In case of error, clear the bad token and redirect
+                // In case of error, clear the bad token
                 localStorage.removeItem('token');
                 window.location.href = '/login';
             } finally {
@@ -39,7 +41,7 @@ function DashboardPage() {
         };
 
         fetchUserData();
-    }, []);
+    }, []); // The empty array [] means this runs only once when the page loads
 
     if (isLoading) {
         return (
@@ -79,17 +81,17 @@ function DashboardPage() {
         <div className="w-full max-w-2xl mx-auto py-12 animate-fadeIn">
             <Card className="bg-slate-800/50 border-slate-700 text-white">
                 <CardHeader>
-                    <CardTitle className="text-2xl">Your Dashboard</CardTitle>
+                    <CardTitle className="text-2xl">Dashboard</CardTitle>
                     <CardDescription>Welcome back, {user.name || user.email}</CardDescription>
                 </CardHeader>
                 <CardContent className="grid md:grid-cols-2 gap-6">
-                    <div className="bg-slate-900/50 p-4 rounded-lg">
+                    <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700">
                         <Label className="text-slate-400">Your Plan</Label>
                         <p className={`text-xl font-bold ${user.isPro ? 'text-purple-400' : 'text-white'}`}>
                             {user.isPro ? 'Lucius Pro' : 'Basic'}
                         </p>
                     </div>
-                     <div className="bg-slate-900/50 p-4 rounded-lg">
+                     <div className="bg-slate-900/50 p-4 rounded-lg border border-slate-700">
                         <Label className="text-slate-400">Credits Remaining</Label>
                         <p className="text-xl font-bold">
                             {user.isPro ? 'Unlimited' : user.credits}
