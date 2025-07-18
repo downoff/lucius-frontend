@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../aitoolnest-project"
+		},
+		{
+			"path": "../lucius-backend"
+		}
+	],
+	"settings": {}
+}
