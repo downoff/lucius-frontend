@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// The complete, professional login page component
+>>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
@@ -29,7 +33,13 @@ function LoginPage() {
             if (response.ok) {
                 toast.success('Login successful! Redirecting...');
                 localStorage.setItem('token', data.token);
+<<<<<<< HEAD
                 setTimeout(() => window.location.href = '/dashboard', 1500);
+=======
+                setTimeout(() => {
+                    window.location.href = '/dashboard'; // Redirect to dashboard on login
+                }, 1500);
+>>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
             } else {
                 toast.error(`Error: ${data.message}`);
             }
@@ -41,6 +51,7 @@ function LoginPage() {
     };
 
     return (
+<<<<<<< HEAD
         <div className="w-full max-w-md mx-auto py-12">
             <Card className="bg-slate-800/50 border-slate-700 text-white">
                 <CardHeader className="text-center">
@@ -71,4 +82,11 @@ function LoginPage() {
     );
 }
 
+=======
+        <div className="w-full max-w-md mx-auto py-12 animate-fadeIn">
+            {/* ... JSX for the complete Login Card ... */}
+        </div>
+    );
+}
+>>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
 export default LoginPage;

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -57,10 +58,22 @@ export default function AppLayout() {
             <header className="px-4 py-2 border-b border-slate-800">
                 <nav className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
+=======
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
+
+export default function AppLayout() {
+    return (
+        <div className="min-h-screen bg-slate-900 text-white grid grid-rows-[auto_1fr] font-sans">
+            <header className="container mx-auto px-4">
+                <nav className="flex items-center justify-between py-3 border-b border-slate-800">
+                    <div className="flex items-center gap-6">
+>>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
                         <Link to="/" className="logo">
                             <img src="/assets/logo.png" alt="Lucius Logo" className="logo-image" />
                             <strong>Lucius</strong>
                         </Link>
+<<<<<<< HEAD
                     </div>
                     <div className="flex items-center gap-2">
                         {user && (
@@ -89,6 +102,21 @@ export default function AppLayout() {
                 </main>
             </div>
             <Toaster />
+=======
+                        <Link to="/app" className="text-slate-300 hover:text-white transition-colors text-sm">Social Studio</Link>
+                        <Link to="/app/image-generator" className="text-slate-300 hover:text-white transition-colors text-sm">Image Generator</Link>
+                    </div>
+                    <div>
+                        {/* We will add login/logout logic back to the header later */}
+                        <Link to="/login" role="button" className="bg-white text-slate-900 font-semibold px-3 py-1.5 rounded-lg hover:bg-slate-200 transition-colors text-sm">Login</Link>
+                    </div>
+                </nav>
+            </header>
+            <main className="p-4 md:p-6 overflow-y-auto">
+                {/* This Outlet component is where your different tools will be rendered */}
+                <Outlet />
+            </main>
+>>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
         </div>
     );
 }

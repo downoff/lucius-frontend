@@ -5,8 +5,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from '@/components/ui/label';
 import { toast } from "sonner";
 
+<<<<<<< HEAD
 // Uses the environment variable for the backend URL
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
+=======
+const backendUrl = 'https://lucius-ai.onrender.com';
+>>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
 
 function ImageGenerator() {
     const [prompt, setPrompt] = useState('');
@@ -36,7 +40,10 @@ function ImageGenerator() {
             }
             const data = await response.json();
             setImageUrl(data.imageUrl);
+<<<<<<< HEAD
             toast.success("Image generated successfully!");
+=======
+>>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
         } catch (err) {
             toast.error(err.message);
         } finally {
@@ -52,6 +59,7 @@ function ImageGenerator() {
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleImageGeneration} className="space-y-4">
+<<<<<<< HEAD
                     <div className="grid gap-2">
                         <Label htmlFor="image-prompt">Your Image Prompt</Label>
                         <Textarea 
@@ -74,6 +82,15 @@ function ImageGenerator() {
                             <a href={imageUrl} target="_blank" rel="noopener noreferrer">
                                 <img src={imageUrl} alt="AI generated" className="w-full h-auto rounded-md" />
                             </a>
+=======
+                    {/* ... JSX for the image gen form ... */}
+                </form>
+                 <div className="mt-6 text-center">
+                    {isLoading ? <div className="loader"></div> : null}
+                    {imageUrl && (
+                        <div className="mt-4 border border-slate-700 rounded-lg p-2 bg-slate-900/50">
+                            <img src={imageUrl} alt="AI generated" className="w-full h-auto rounded-md" />
+>>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
                         </div>
                     )}
                 </div>
