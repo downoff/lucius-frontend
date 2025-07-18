@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from '@/components/ui/label';
 import { toast } from "sonner";
 
-<<<<<<< HEAD
-// Uses the environment variable for the backend URL
+// Uses the environment variable for the backend URL, which is the professional way
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
-=======
-const backendUrl = 'https://lucius-ai.onrender.com';
->>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
 
 function ImageGenerator() {
     const [prompt, setPrompt] = useState('');
@@ -36,14 +33,11 @@ function ImageGenerator() {
             });
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message);
+                throw new Error(errorData.message || "An error occurred.");
             }
             const data = await response.json();
             setImageUrl(data.imageUrl);
-<<<<<<< HEAD
             toast.success("Image generated successfully!");
-=======
->>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
         } catch (err) {
             toast.error(err.message);
         } finally {
@@ -52,14 +46,13 @@ function ImageGenerator() {
     };
 
     return (
-         <Card className="w-full max-w-2xl mx-auto bg-slate-800/50 border-slate-700 text-white">
+        <Card className="w-full max-w-2xl mx-auto bg-slate-800/50 border-slate-700 text-white">
             <CardHeader>
                 <CardTitle className="text-2xl">AI Image Generator</CardTitle>
                 <CardDescription>Describe any image you can imagine. This is a Pro feature.</CardDescription>
             </CardHeader>
             <CardContent>
                 <form onSubmit={handleImageGeneration} className="space-y-4">
-<<<<<<< HEAD
                     <div className="grid gap-2">
                         <Label htmlFor="image-prompt">Your Image Prompt</Label>
                         <Textarea 
@@ -75,22 +68,18 @@ function ImageGenerator() {
                         {isLoading ? 'Generating...' : 'Generate Image'}
                     </Button>
                 </form>
-                 <div className="mt-6 text-center">
-                    {isLoading && <div className="loader"></div>}
+                <div className="mt-6 text-center">
+                    {isLoading && (
+                         <div className="flex flex-col justify-center items-center h-64">
+                            <div className="loader"></div>
+                            <p className="text-slate-400 mt-4">Generating your image... this can take up to a minute.</p>
+                        </div>
+                    )}
                     {imageUrl && (
                         <div className="mt-4 border border-slate-700 rounded-lg p-2 bg-slate-900/50">
                             <a href={imageUrl} target="_blank" rel="noopener noreferrer">
                                 <img src={imageUrl} alt="AI generated" className="w-full h-auto rounded-md" />
                             </a>
-=======
-                    {/* ... JSX for the image gen form ... */}
-                </form>
-                 <div className="mt-6 text-center">
-                    {isLoading ? <div className="loader"></div> : null}
-                    {imageUrl && (
-                        <div className="mt-4 border border-slate-700 rounded-lg p-2 bg-slate-900/50">
-                            <img src={imageUrl} alt="AI generated" className="w-full h-auto rounded-md" />
->>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
                         </div>
                     )}
                 </div>
