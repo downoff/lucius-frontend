@@ -8,8 +8,8 @@
 
 /* Custom theme variables and base styles */
 :root {
-  --primary-color: #a855f7; /* A vibrant purple */
-  --background-start: #111827; /* Deep blue/black */
+  --primary-color: #a855f7;
+  --background-start: #111827;
   --text-color: #e5e7eb;
 }
 
