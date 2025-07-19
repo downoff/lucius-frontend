@@ -1,122 +1,31 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Toaster } from '@/components/ui/sonner';
-
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
-
-// Helper component for active navigation links
-const NavLink = ({ to, children }) => {
-    const location = useLocation();
-    // The startsWith check handles nested routes like /app/image-generator
-    const isActive = location.pathname === to || location.pathname.startsWith(`${to}/`);
-    return (
-        <Link 
-            to={to} 
-            className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive 
-                ? 'bg-slate-700 text-white' 
-                : 'text-slate-400 hover:bg-slate-800 hover:text-white'
-            }`}
-        >
-            {children}
-        </Link>
-    );
-};
 
 export default function AppLayout() {
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const fetchUser = async () => {
-            const token = localStorage.getItem('token');
-            if (token) {
-                try {
-                    const response = await fetch(`${backendUrl}/api/users/me`, {
-                        headers: { 'x-auth-token': token }
-                    });
-                    if (response.ok) {
-                        const userData = await response.json();
-                        setUser(userData);
-                    }
-                } catch (error) {
-                    console.error("Failed to fetch user", error);
-                }
-            }
-        };
-        fetchUser();
-    }, []);
-
-    const logout = () => {
-        localStorage.removeItem('token');
-        window.location.href = '/login';
-    };
-
     return (
         <div className="min-h-screen bg-slate-900 text-white grid grid-rows-[auto_1fr] font-sans">
             <header className="px-4 py-2 border-b border-slate-800">
                 <nav className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-=======
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
-
-export default function AppLayout() {
-    return (
-        <div className="min-h-screen bg-slate-900 text-white grid grid-rows-[auto_1fr] font-sans">
-            <header className="container mx-auto px-4">
-                <nav className="flex items-center justify-between py-3 border-b border-slate-800">
                     <div className="flex items-center gap-6">
->>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
                         <Link to="/" className="logo">
                             <img src="/assets/logo.png" alt="Lucius Logo" className="logo-image" />
                             <strong>Lucius</strong>
                         </Link>
-<<<<<<< HEAD
                     </div>
                     <div className="flex items-center gap-2">
-                        {user && (
-                            <span className="text-sm text-slate-400 hidden sm:block">
-                                Credits: <strong className="text-white">{user.isPro ? 'Unlimited' : user.credits}</strong>
-                            </span>
-                        )}
-                        <Link to="/dashboard">
-                            <Button variant="ghost">Dashboard</Button>
+                        <Link to="/login">
+                            <Button variant="ghost">Login</Button>
                         </Link>
-                        <Button onClick={logout}>Logout</Button>
-                    </div>
-                </nav>
-            </header>
-            <div className="grid grid-cols-[240px_1fr] h-[calc(100vh-61px)] overflow-hidden">
-                <aside className="bg-slate-900/30 border-r border-slate-800 p-4">
-                    <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Tools</p>
-                    <nav className="flex flex-col gap-2">
-                        <NavLink to="/app">Social Studio</NavLink>
-                        <NavLink to="/app/image-generator">Image Generator</NavLink>
-                        <NavLink to="/app/scheduler">Post Scheduler</NavLink>
-                    </nav>
-                </aside>
-                <main className="p-4 md:p-6 overflow-y-auto">
-                    <Outlet />
-                </main>
-            </div>
-            <Toaster />
-=======
-                        <Link to="/app" className="text-slate-300 hover:text-white transition-colors text-sm">Social Studio</Link>
-                        <Link to="/app/image-generator" className="text-slate-300 hover:text-white transition-colors text-sm">Image Generator</Link>
-                    </div>
-                    <div>
-                        {/* We will add login/logout logic back to the header later */}
-                        <Link to="/login" role="button" className="bg-white text-slate-900 font-semibold px-3 py-1.5 rounded-lg hover:bg-slate-200 transition-colors text-sm">Login</Link>
+                        <Link to="/signup">
+                            <Button>Sign Up</Button>
+                        </Link>
                     </div>
                 </nav>
             </header>
             <main className="p-4 md:p-6 overflow-y-auto">
-                {/* This Outlet component is where your different tools will be rendered */}
-                <Outlet />
+                <Outlet /> {/* This is where your different tools will be rendered */}
             </main>
->>>>>>> 3dcb9258652ba9b43a55a760f44c51d3cf10d0bc
         </div>
     );
 }
