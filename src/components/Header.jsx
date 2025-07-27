@@ -2,25 +2,41 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 function Header() {
-    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
+    // This effect runs when the component loads to check the login status
     useEffect(() => {
-        const handleStorageChange = () => {
-            setToken(localStorage.getItem('token'));
+        const fetchUser = async () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                try {
+                    const response = await fetch(`${backendUrl}/api/users/me`, {
+                        headers: { 'x-auth-token': token }
+                    });
+                    if (response.ok) {
+                        const userData = await response.json();
+                        setUser(userData);
+                    } else {
+                        // If token is invalid, remove it
+                        localStorage.removeItem('token');
+                    }
+                } catch (error) {
+                    console.error("Failed to fetch user", error);
+                    localStorage.removeItem('token');
+                }
+            }
         };
-        // Listen for changes to localStorage (e.g., after login/logout)
-        window.addEventListener('storage', handleStorageChange);
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-        };
+        fetchUser();
     }, []);
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        setToken(null);
-        navigate('/'); // Redirect to landing page on logout
+        setUser(null);
+        navigate('/'); // Redirect to the landing page on logout
     };
 
     return (
@@ -34,9 +50,12 @@ function Header() {
                 </div>
                 
                 <div className="flex items-center gap-2">
-                    {token ? (
+                    {user ? (
                         // --- Logged-in User View ---
                         <>
+                            <span className="text-sm text-slate-400 hidden sm:block">
+                                Credits: <strong className="text-white">{user.isPro ? 'Unlimited' : user.credits}</strong>
+                            </span>
                             <Link to="/app">
                                 <Button variant="ghost">Enter App</Button>
                             </Link>
@@ -45,6 +64,9 @@ function Header() {
                     ) : (
                         // --- Logged-out User View ---
                         <>
+                            <Link to="/pricing">
+                                <Button variant="ghost">Pricing</Button>
+                            </Link>
                             <Link to="/login">
                                 <Button variant="ghost">Login</Button>
                             </Link>
