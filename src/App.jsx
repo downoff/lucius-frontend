@@ -2,10 +2,14 @@ import { Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-import PricingPage from './pages/PricingPage'; // <-- Import PricingPage
+import PricingPage from './pages/PricingPage';
+import DashboardPage from './pages/DashboardPage';
+import AuthSuccessPage from './pages/AuthSuccessPage';
 import AppLayout from './layouts/AppLayout';
 import SocialStudio from './pages/SocialStudio';
 import ImageGenerator from './pages/ImageGenerator';
+import SchedulerPage from './pages/SchedulerPage';
+import ProtectedRoute from './components/ProtectedRoute';
 import { Toaster } from "@/components/ui/sonner";
 
 function App() {
@@ -16,13 +20,17 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/pricing" element={<PricingPage />} /> {/* <-- Add PricingPage Route */}
+        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/auth-success.html" element={<AuthSuccessPage />} />
         
         {/* Main Application (Protected Routes) */}
-        <Route path="/app" element={<AppLayout />}>
+        <Route path="/app" element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
           <Route index element={<SocialStudio />} />
           <Route path="image-generator" element={<ImageGenerator />} />
+          <Route path="scheduler" element={<SchedulerPage />} />
         </Route>
+
+        <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
       </Routes>
       <Toaster />
     </>
