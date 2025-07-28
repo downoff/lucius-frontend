@@ -12,13 +12,12 @@ function AuthSuccessPage() {
         const token = params.get('token');
 
         if (token) {
-            // If a token is found in the URL, save it to the browser's storage
-            console.log("Token found, saving to localStorage...");
+            // If a token is found, save it to the browser's storage
             localStorage.setItem('token', token);
             
-            // Redirect the user to the main app after a short delay
+            // Redirect to the main app dashboard after a short delay
             setTimeout(() => {
-                window.location.href = '/app';
+                window.location.href = '/app'; // Use window.location.href to force a full refresh
             }, 1000);
 
         } else {
