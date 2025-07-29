@@ -30,7 +30,6 @@ function Header() {
         };
         fetchUser();
 
-        // This helps the header update if login/logout happens in another tab
         const handleStorageChange = () => {
             fetchUser();
         };
@@ -51,12 +50,12 @@ function Header() {
             <nav className="flex items-center justify-between">
                 <div className="flex items-center gap-6">
                     <Link to={user ? "/app" : "/"} className="logo">
-                        {/* This is the corrected line */}
+                        {/* This path correctly points to your logo */}
                         <img src="/assets/logo.png" alt="Lucius Logo" className="logo-image" />
                         <strong className="text-white hidden sm:block">Lucius</strong>
                     </Link>
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                     {user ? (
                         // --- Logged-in User View ---
