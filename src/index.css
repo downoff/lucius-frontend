@@ -66,3 +66,20 @@
     @apply bg-background text-foreground;
   }
 }
+/* =============================================== */
+/* V3 Professional UI Styles                       */
+/* =============================================== */
+
+/* Header Logo Styling */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Creates space between the logo image and the "Lucius" text */
+  text-decoration: none;
+}
+
+.logo-image {
+  height: 32px; /* Sets a fixed, professional height for the logo */
+  width: auto;  /* Tells the browser to automatically calculate the width to maintain proportions */
+  object-fit: contain; /* Ensures the image scales nicely without stretching */
+}
