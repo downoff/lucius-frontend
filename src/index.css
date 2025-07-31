@@ -83,3 +83,32 @@
   width: auto;  /* Tells the browser to automatically calculate the width to maintain proportions */
   object-fit: contain; /* Ensures the image scales nicely without stretching */
 }
+
+/* =============================================== */
+/* V3 Professional UI Styles                       */
+/* =============================================== */
+
+/* Header Logo Styling */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.logo-image {
+  height: 32px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* NEW: Glassmorphism Card Style */
+.glass-card {
+  @apply border border-slate-700/60 bg-slate-800/50 shadow-lg supports-[backdrop-blur]:bg-slate-800/40 supports-[backdrop-blur]:backdrop-blur-xl;
+}
+
+/* A subtle background pattern for the whole app to make the glass effect pop */
+body {
+    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+    background-size: 2rem 2rem;
+}
