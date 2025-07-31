@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
+import { toast } from 'sonner';
 
 // IMPORTANT: Replace these with your real Stripe Payment Links
 const starterPlanLink = "https://buy.stripe.com/5kQfZg5YH6Eod5O67y38401";
@@ -24,22 +25,22 @@ const PricingTier = ({ title, price, description, features, buttonText, isFeatur
     };
 
     return (
-        <Card className={`w-full ${isFeatured ? 'border-purple-500 bg-slate-800' : 'bg-slate-800/50 border-slate-700'}`}>
+        <Card className={`w-full ${isFeatured ? 'border-2 border-purple-500 bg-slate-800 shadow-lg shadow-purple-500/10' : 'bg-slate-800/50 border-slate-700'}`}>
             <CardHeader className="text-center">
                 <CardTitle className="text-2xl">{title}</CardTitle>
                 <p className="text-4xl font-bold mt-4">${price}<span className="text-sm font-normal text-slate-400">/month</span></p>
-                <CardDescription className="mt-2">{description}</CardDescription>
+                <CardDescription className="mt-2 h-10">{description}</CardDescription>
             </CardHeader>
             <CardContent>
-                <ul className="space-y-3 my-6">
+                <ul className="space-y-3 my-6 h-32">
                     {features.map((feature, index) => (
                         <li key={index} className="flex items-center gap-3">
-                            <span className="text-purple-400">✓</span>
+                            <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
                             <span>{feature}</span>
                         </li>
                     ))}
                 </ul>
-                <Button onClick={handleUpgradeClick} className={`w-full ${isFeatured ? '' : 'bg-purple-600 hover:bg-purple-700'}`}>
+                <Button onClick={handleUpgradeClick} className={`w-full text-lg h-12 ${isFeatured ? 'bg-purple-600 hover:bg-purple-700' : 'bg-slate-700 hover:bg-slate-600'}`}>
                     {buttonText}
                 </Button>
             </CardContent>
