@@ -18,7 +18,8 @@ import PostPage from './pages/PostPage';
 import ConversationPage from './pages/ConversationPage';
 import CarouselCreatorPage from './pages/CarouselCreatorPage';
 import HashtagGeneratorPage from './pages/HashtagGeneratorPage';
-import WeeklyPlannerPage from './pages/WeeklyPlannerPage'; // <-- NEW
+import WeeklyPlannerPage from './pages/WeeklyPlannerPage';
+import BrandVoicePage from './pages/BrandVoicePage'; // <-- NEW
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -40,7 +41,7 @@ function App() {
           <Route index element={<SocialStudio />} />
           <Route path="carousel-creator" element={<CarouselCreatorPage />} />
           <Route path="hashtag-generator" element={<HashtagGeneratorPage />} />
-          <Route path="weekly-planner" element={<WeeklyPlannerPage />} /> {/* <-- NEW ROUTE */}
+          <Route path="weekly-planner" element={<WeeklyPlannerPage />} />
           <Route path="image-generator" element={<ImageGenerator />} />
           <Route path="scheduler" element={<SchedulerPage />} />
           <Route path="c/:conversationId" element={<ConversationPage />} />
@@ -48,6 +49,8 @@ function App() {
 
         {/* Standalone Protected Pages */}
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+        <Route path="/brand-voice" element={<ProtectedRoute><BrandVoicePage /></ProtectedRoute>} /> {/* <-- NEW ROUTE */}
+
       </Routes>
       <Toaster />
     </>
