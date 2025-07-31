@@ -28,15 +28,18 @@ function ConversationPage() {
                 setIsLoading(false);
             }
         };
-        fetchConversation();
+        
+        if (conversationId) {
+            fetchConversation();
+        }
     }, [conversationId]);
 
     if (isLoading) {
-        return <div className="text-center p-8">Loading conversation...</div>;
+        return <div className="text-center p-8 text-white">Loading conversation...</div>;
     }
 
     if (!conversation) {
-        return <div className="text-center p-8">Conversation not found.</div>;
+        return <div className="text-center p-8 text-white">Conversation not found.</div>;
     }
 
     return (

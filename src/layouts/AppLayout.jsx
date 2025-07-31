@@ -62,7 +62,8 @@ export default function AppLayout() {
                         ) : (
                             <nav className="flex flex-col gap-2">
                                 {history.length > 0 ? history.map(conv => (
-                                    <Link key={conv._id} to="#" className="text-sm text-slate-400 truncate hover:text-white transition-colors">
+                                    // UPDATE THIS LINK
+                                    <Link key={conv._id} to={`/app/c/${conv._id}`} className="text-sm text-slate-400 truncate hover:text-white transition-colors">
                                         {conv.title}
                                     </Link>
                                 )) : (
