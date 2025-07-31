@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -15,51 +16,57 @@ function SocialStudio() {
     const [coreMessage, setCoreMessage] = useState('');
     const [keywords, setKeywords] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [output, setOutput] = useState('Your generated social media posts will appear here.');
-    
-    // This effect will clean up the connection if the user navigates away
-    useEffect(() => {
-        let eventSource;
-        return () => {
-            if (eventSource) {
-                eventSource.close();
-            }
-        };
-    }, []);
+    const [outputs, setOutputs] = useState([]);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
-        setOutput('');
-        
+        setOutputs([]);
+
         const token = localStorage.getItem('token');
         if (!token) {
-            toast.error("Please log in to use the Pro generator.");
+            toast.error("Please log in to generate content.");
             setIsLoading(false);
             return;
         }
 
         let finalPrompt = `You are an expert social media marketer...`; // Your full prompt logic
 
-        // Use EventSource to connect to the streaming endpoint
-        const eventSource = new EventSource(`${backendUrl}/api/ai/generate?token=${token}&prompt=${encodeURIComponent(finalPrompt)}`);
+        try {
+            const response = await fetch(`${backendUrl}/api/ai/generate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'x-auth-token': token },
+                body: JSON.stringify({ prompt: finalPrompt }),
+            });
 
-        eventSource.onmessage = (event) => {
-            const parsedData = JSON.parse(event.data);
-            if (parsedData.error) {
-                toast.error(parsedData.error);
-                eventSource.close();
-                setIsLoading(false);
-            } else {
-                setOutput(prevOutput => prevOutput + parsedData.text);
+            const data = await response.json();
+
+            if (!response.ok) {
+                // This will catch the "out of credits" error
+                throw new Error(data.message || 'An error occurred.');
             }
-        };
 
-        eventSource.onerror = () => {
-            toast.error("Connection to the AI server failed. Please try again.");
-            eventSource.close();
+            const generatedPosts = data.text.split('---').filter(p => p.trim() !== '');
+            setOutputs(generatedPosts);
+            toast.success("Content generated successfully!");
+
+        } catch (error) {
+            toast.error(error.message, {
+                action: error.message.includes('credits') ? (
+                    <Link to="/pricing">
+                        <Button variant="outline" size="sm">Upgrade</Button>
+                    </Link>
+                ) : undefined,
+            });
+            setOutputs([]);
+        } finally {
             setIsLoading(false);
-        };
+        }
+    };
+    
+    const handleCopy = (textToCopy) => {
+        navigator.clipboard.writeText(textToCopy);
+        toast.success("Copied to clipboard!");
     };
 
     return (
@@ -70,17 +77,53 @@ function SocialStudio() {
                     <CardDescription>Your AI co-pilot for creating high-quality social media content in seconds.</CardDescription>
                 </CardHeader>
                 <CardContent>
+                    {/* ... Your full form JSX (no changes needed here) ... */}
                     <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* ... Your full form JSX ... */}
-                        <Button type="submit" disabled={isLoading} className="w-full text-lg h-12">
-                            {isLoading ? 'Generating...' : 'Generate Posts'}
-                        </Button>
-                    </form>
-                    <div className="mt-8">
-                        <Label className="text-lg">Generated Content</Label>
-                        <div className="mt-2 p-4 bg-slate-900/50 border border-slate-700 rounded-md min-h-[250px] whitespace-pre-wrap">
-                            {output}
+                         <div className="space-y-2">
+                            <Label htmlFor="core-message">Core Message or Topic</Label>
+                            <Textarea id="core-message" placeholder="e.g., The launch of our new productivity app..." required value={coreMessage} onChange={(e) => setCoreMessage(e.target.value)} className="bg-slate-900 border-slate-700 min-h-[120px]" />
                         </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="platform-select">Target Platform</Label>
+                                <Select onValueChange={setPlatform} defaultValue={platform}>
+                                    <SelectTrigger id="platform-select" className="bg-slate-900 border-slate-700">
+                                        <SelectValue placeholder="Select a platform" />
+                                    </SelectTrigger>
+                                    <SelectContent className="bg-slate-800 text-white border-slate-700">
+                                        <SelectItem value="X (formerly Twitter)">X (Twitter)</SelectItem>
+                                        <SelectItem value="LinkedIn">LinkedIn</SelectItem>
+                                        <SelectItem value="Instagram Caption">Instagram</SelectItem>
+                                        <SelectItem value="Facebook">Facebook</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="keywords">Keywords to Include (optional)</Label>
+                                <Input type="text" id="keywords" placeholder="e.g., productivity, new feature" value={keywords} onChange={(e) => setKeywords(e.target.value)} className="bg-slate-900 border-slate-700" />
+                            </div>
+                        </div>
+                        <div>
+                            <Button type="submit" disabled={isLoading} className="w-full text-lg h-12">
+                                {isLoading ? 'Generating...' : 'Generate Posts'}
+                            </Button>
+                        </div>
+                    </form>
+                    <div className="mt-8 space-y-4">
+                        <Label className="text-lg">Generated Content</Label>
+                        {isLoading && (
+                            <div className="flex justify-center items-center h-32"><div className="loader"></div></div>
+                        )}
+                        {outputs.map((post, index) => (
+                            <Card key={index} className="bg-slate-900/50 border-slate-700">
+                                <CardContent className="p-4">
+                                    <p className="whitespace-pre-wrap">{post.trim()}</p>
+                                    <div className="text-right mt-2">
+                                        <Button variant="ghost" size="sm" onClick={() => handleCopy(post.trim())}>Copy</Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        ))}
                     </div>
                 </CardContent>
             </Card>

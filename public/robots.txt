@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://www.ailucius.com/sitemap.xml
