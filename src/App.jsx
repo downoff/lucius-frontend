@@ -20,7 +20,8 @@ import CarouselCreatorPage from './pages/CarouselCreatorPage';
 import HashtagGeneratorPage from './pages/HashtagGeneratorPage';
 import WeeklyPlannerPage from './pages/WeeklyPlannerPage';
 import BrandVoicePage from './pages/BrandVoicePage';
-import CampaignGeneratorPage from './pages/CampaignGeneratorPage'; // <-- NEW
+import CampaignGeneratorPage from './pages/CampaignGeneratorPage';
+import ContentHubPage from './pages/ContentHubPage'; // <-- NEW
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -30,17 +31,13 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/pricing" element={<PricingPage />} />
-        <Route path="/auth-success.html" element={<AuthSuccessPage />} />
-        <Route path="/blog" element={<BlogPage />} />
-        <Route path="/blog/:slug" element={<PostPage />} />
+        {/* ... other public routes ... */}
         
         {/* Main Application (Protected Routes) */}
         <Route path="/app" element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
-          <Route index element={<SocialStudio />} />
-          <Route path="campaign-generator" element={<CampaignGeneratorPage />} /> {/* <-- NEW ROUTE */}
+          <Route index element={<ContentHubPage />} /> {/* <-- NEW DEFAULT PAGE */}
+          <Route path="social-studio" element={<SocialStudio />} /> {/* <-- Changed path */}
+          <Route path="campaign-generator" element={<CampaignGeneratorPage />} />
           <Route path="carousel-creator" element={<CarouselCreatorPage />} />
           <Route path="hashtag-generator" element={<HashtagGeneratorPage />} />
           <Route path="weekly-planner" element={<WeeklyPlannerPage />} />
