@@ -31,10 +31,6 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
-      // NEW: This allows us to use backdrop blur utilities
-      supports: {
-        'backdrop-blur': 'backdrop-filter: blur(1px)',
-      },
     },
   },
   plugins: [require("tailwindcss-animate")],

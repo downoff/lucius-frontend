@@ -1,11 +1,10 @@
-/* Import the base styles for Tailwind CSS */
+/* 1. Import the base styles for Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* This is the foundational setup for Shadcn/UI.
-  It defines all the colors and variables (like 'border-border') 
-  that our components use. We are defining a dark theme.
+/* 2. Define the theme variables for Shadcn/UI. 
+   This is where 'border-border' and all other custom styles get created.
 */
 @layer base {
   :root {
@@ -32,6 +31,9 @@
   }
 }
 
+/* 3. Apply the base styles. 
+   This can only happen AFTER the variables have been defined.
+*/
 @layer base {
   * {
     @apply border-border;
