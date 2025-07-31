@@ -42,7 +42,7 @@ function Header() {
     const handleLogout = () => {
         localStorage.removeItem('token');
         setUser(null);
-        navigate('/'); // Redirect to the landing page on logout
+        navigate('/');
     };
 
     return (
@@ -50,12 +50,11 @@ function Header() {
             <nav className="flex items-center justify-between">
                 <div className="flex items-center gap-6">
                     <Link to={user ? "/app" : "/"} className="logo">
-                        {/* This path correctly points to your logo */}
                         <img src="/assets/logo.png" alt="Lucius Logo" className="logo-image" />
                         <strong className="text-white hidden sm:block">Lucius</strong>
                     </Link>
                 </div>
-
+                
                 <div className="flex items-center gap-2">
                     {user ? (
                         // --- Logged-in User View ---
@@ -71,6 +70,7 @@ function Header() {
                     ) : (
                         // --- Logged-out User View ---
                         <>
+                            <Link to="/blog"><Button variant="ghost">Blog</Button></Link>
                             <Link to="/pricing"><Button variant="ghost">Pricing</Button></Link>
                             <Link to="/login"><Button variant="ghost">Login</Button></Link>
                             <Link to="/signup"><Button>Sign Up</Button></Link>
