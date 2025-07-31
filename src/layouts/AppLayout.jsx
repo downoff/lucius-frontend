@@ -7,9 +7,17 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const NavLink = ({ to, children }) => {
     const location = useLocation();
+    // This logic correctly highlights the active link in the sidebar
     const isActive = location.pathname === `/app${to === '/' ? '' : to}`;
     return (
-        <Link to={`/app${to === '/' ? '' : to}`} className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? 'bg-slate-700 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
+        <Link 
+            to={`/app${to === '/' ? '' : to}`} 
+            className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                isActive 
+                ? 'bg-slate-700 text-white' 
+                : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+            }`}
+        >
             {children}
         </Link>
     );
@@ -51,6 +59,9 @@ export default function AppLayout() {
                         <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Tools</p>
                         <nav className="flex flex-col gap-2">
                             <NavLink to="/">Social Studio</NavLink>
+                            <NavLink to="/carousel-creator">Carousel Creator</NavLink>
+                            <NavLink to="/hashtag-generator">Hashtag AI</NavLink>
+                            <NavLink to="/weekly-planner">Weekly Planner</NavLink>
                             <NavLink to="/image-generator">Image Generator</NavLink>
                             <NavLink to="/scheduler">Post Scheduler</NavLink>
                         </nav>
@@ -62,8 +73,11 @@ export default function AppLayout() {
                         ) : (
                             <nav className="flex flex-col gap-2">
                                 {history.length > 0 ? history.map(conv => (
-                                    // UPDATE THIS LINK
-                                    <Link key={conv._id} to={`/app/c/${conv._id}`} className="text-sm text-slate-400 truncate hover:text-white transition-colors">
+                                    <Link 
+                                        key={conv._id} 
+                                        to={`/app/c/${conv._id}`} 
+                                        className="text-sm text-slate-400 truncate hover:text-white transition-colors"
+                                    >
                                         {conv.title}
                                     </Link>
                                 )) : (

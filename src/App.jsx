@@ -15,7 +15,10 @@ import ImageGenerator from './pages/ImageGenerator';
 import SchedulerPage from './pages/SchedulerPage';
 import BlogPage from './pages/BlogPage';
 import PostPage from './pages/PostPage';
-import ConversationPage from './pages/ConversationPage'; // <-- NEW
+import ConversationPage from './pages/ConversationPage';
+import CarouselCreatorPage from './pages/CarouselCreatorPage';
+import HashtagGeneratorPage from './pages/HashtagGeneratorPage';
+import WeeklyPlannerPage from './pages/WeeklyPlannerPage'; // <-- NEW
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -35,9 +38,12 @@ function App() {
         {/* Main Application (Protected Routes) */}
         <Route path="/app" element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
           <Route index element={<SocialStudio />} />
+          <Route path="carousel-creator" element={<CarouselCreatorPage />} />
+          <Route path="hashtag-generator" element={<HashtagGeneratorPage />} />
+          <Route path="weekly-planner" element={<WeeklyPlannerPage />} /> {/* <-- NEW ROUTE */}
           <Route path="image-generator" element={<ImageGenerator />} />
           <Route path="scheduler" element={<SchedulerPage />} />
-          <Route path="c/:conversationId" element={<ConversationPage />} /> {/* <-- NEW DYNAMIC ROUTE */}
+          <Route path="c/:conversationId" element={<ConversationPage />} />
         </Route>
 
         {/* Standalone Protected Pages */}
