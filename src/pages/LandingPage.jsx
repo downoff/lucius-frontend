@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
 import InteractiveDemo from '@/components/InteractiveDemo';
-import Footer from '@/components/Footer'; // <-- NEW
+import Footer from '@/components/Footer';
 
 const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.2 } } };
 const itemVariants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } };
@@ -20,6 +20,11 @@ export default function LandingPage() {
                     initial="hidden"
                     animate="visible"
                 >
+                    {/* NEW: Logo is now prominently displayed here */}
+                    <motion.div variants={itemVariants} className="flex justify-center mb-6">
+                        <img src="/assets/logo.png" alt="Lucius AI Logo" className="w-24 h-24 md:w-32 md:h-32" />
+                    </motion.div>
+
                     <motion.h1 variants={itemVariants} className="text-4xl md:text-6xl font-bold tracking-tighter">
                         Your AI Co-Pilot for Social Media
                     </motion.h1>
