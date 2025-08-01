@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "prebuild": "pnpm install",
-    "build": "vite build && copyfiles -u 1 public/*.xml public/*.txt dist",
+    "build": "vite build",
     "postbuild": "echo 'Build complete'",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -41,6 +41,7 @@
     "eslint-plugin-react-refresh": "^0.4.7",
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.6",
-    "vite": "^5.3.3"
+    "vite": "^5.3.3",
+    "vite-plugin-static-copy": "^3.1.1"
   }
 }
