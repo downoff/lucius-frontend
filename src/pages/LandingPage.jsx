@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
-import InteractiveDemo from '@/components/InteractiveDemo'; // <-- NEW
+import InteractiveDemo from '@/components/InteractiveDemo';
+import Footer from '@/components/Footer'; // <-- NEW
 
 const containerVariants = { hidden: { opacity: 0 }, visible: { opacity: 1, transition: { staggerChildren: 0.2 } } };
 const itemVariants = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5 } } };
@@ -13,7 +14,7 @@ export default function LandingPage() {
         <div className="w-full min-h-screen bg-slate-900 text-white flex flex-col font-sans">
             <Header />
             <div className="flex-grow flex flex-col justify-center items-center p-4">
-                <motion.div 
+                <motion.div
                     className="text-center"
                     variants={containerVariants}
                     initial="hidden"
@@ -28,7 +29,7 @@ export default function LandingPage() {
                     </motion.p>
                 </motion.div>
 
-                <motion.div 
+                <motion.div
                     className="mt-12 w-full"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -37,6 +38,7 @@ export default function LandingPage() {
                     <InteractiveDemo />
                 </motion.div>
             </div>
+            <Footer />
         </div>
     );
 }

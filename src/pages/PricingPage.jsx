@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer'; // <-- NEW
 import { toast } from 'sonner';
 
 // IMPORTANT: Replace these with your real Stripe Payment Links
-const starterPlanLink = "https://buy.stripe.com/5kQfZg5YH6Eod5O67y38401";
-const proPlanLink = "https://buy.stripe.com/aFa00ifzhe6Q9TC53u38402";
+const starterPlanLink = "https://buy.stripe.com/YOUR_STARTER_LINK_HERE";
+const proPlanLink = "https://buy.stripe.com/YOUR_PRO_LINK_HERE";
 
 const PricingTier = ({ title, price, description, features, buttonText, isFeatured }) => {
     const navigate = useNavigate();
@@ -48,15 +49,14 @@ const PricingTier = ({ title, price, description, features, buttonText, isFeatur
     );
 };
 
-
 function PricingPage() {
     return (
         <div className="w-full min-h-screen bg-slate-900 text-white flex flex-col font-sans">
             <Header />
             <div className="flex-grow flex justify-center items-center p-4">
-                <motion.div 
-                    initial={{ opacity: 0, y: 20 }} 
-                    animate={{ opacity: 1, y: 0 }} 
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                     className="w-full max-w-4xl mx-auto"
                 >
@@ -85,6 +85,7 @@ function PricingPage() {
                     </div>
                 </motion.div>
             </div>
+            <Footer />
         </div>
     );
 }
