@@ -8,28 +8,44 @@ import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-// NEW: Import the generated page data
-import pageData from '../pages.json';
+import pageData from '../pages.json'; // Import the generated data
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function MicroToolPage() {
     const { nicheSlug } = useParams();
-    
-    // NEW: Find the current niche's data from the imported JSON
     const [niche, setNiche] = useState(null);
+    const [prompt, setPrompt] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [result, setResult] = useState('');
 
     useEffect(() => {
         const currentNiche = pageData.find(p => p.slug === nicheSlug);
         if (currentNiche) {
             setNiche(currentNiche);
+            
+            // The "Sentient" part: Auto-generate the first result on page load
+            const autoGenerate = async () => {
+                setIsLoading(true);
+                try {
+                    const initialPrompt = `Generate a generic, high-quality social media post for ${currentNiche.title}.`;
+                    const response = await fetch(`${backendUrl}/api/public/generate-demo`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: initialPrompt }),
+                    });
+                    const data = await response.json();
+                    if (!response.ok) throw new Error(data.message);
+                    setResult(data.text);
+                } catch (error) {
+                    console.error("Auto-generation failed:", error);
+                } finally {
+                    setIsLoading(false);
+                }
+            };
+            autoGenerate();
         }
     }, [nicheSlug]);
-
-
-    const [prompt, setPrompt] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [result, setResult] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -52,13 +68,8 @@ export default function MicroToolPage() {
         }
     };
     
-    // Show a loading or not found state while the niche data is being set
     if (!niche) {
-        return (
-             <div className="w-full min-h-screen bg-slate-900 text-white flex justify-center items-center">
-                Loading...
-            </div>
-        );
+        return <div className="w-full min-h-screen bg-slate-900 text-white flex justify-center items-center">Loading...</div>;
     }
 
     return (
@@ -81,13 +92,21 @@ export default function MicroToolPage() {
                                     required
                                 />
                                 <Button type="submit" size="lg" disabled={isLoading} className="w-full bg-purple-600 hover:bg-purple-700 text-lg">
-                                    {isLoading ? 'Generating Post...' : 'Generate Free Post'}
+                                    {isLoading ? 'Generating Post...' : 'Generate New Post'}
                                 </Button>
                             </form>
-                             {result && (
+                             {(isLoading || result) && (
                                 <div className="mt-6 border-t border-slate-700 pt-6">
                                     <h3 className="text-lg font-semibold">Generated Post:</h3>
-                                    <p className="mt-2 p-4 bg-slate-900/50 rounded-md whitespace-pre-wrap">{result}</p>
+                                    {isLoading ? (
+                                        <div className="space-y-2 mt-2">
+                                            <div className="h-4 bg-slate-700 rounded animate-pulse w-3/4"></div>
+                                            <div className="h-4 bg-slate-700 rounded animate-pulse w-full"></div>
+                                            <div className="h-4 bg-slate-700 rounded animate-pulse w-1/2"></div>
+                                        </div>
+                                    ) : (
+                                        <p className="mt-2 p-4 bg-slate-900/50 rounded-md whitespace-pre-wrap">{result}</p>
+                                    )}
                                 </div>
                             )}
                         </CardContent>
