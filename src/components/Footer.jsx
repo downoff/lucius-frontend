@@ -12,10 +12,11 @@ export default function Footer() {
                     </Link>
                     <p className="text-sm mt-2">&copy; {new Date().getFullYear()} Lucius AI. All rights reserved.</p>
                 </div>
-                <div className="flex gap-6">
-                    <Link to="/about" className="text-sm hover:text-white transition-colors">About Us</Link>
-                    <Link to="/terms" className="text-sm hover:text-white transition-colors">Terms of Service</Link>
-                    <Link to="/privacy" className="text-sm hover:text-white transition-colors">Privacy Policy</Link>
+                <div className="flex flex-wrap justify-center gap-6">
+                    <Link to="/about" className="text-sm hover:text-white transition-colors">About</Link>
+                    <Link to="/contact" className="text-sm hover:text-white transition-colors">Contact</Link>
+                    <Link to="/terms" className="text-sm hover:text-white transition-colors">Terms</Link>
+                    <Link to="/privacy" className="text-sm hover:text-white transition-colors">Privacy</Link>
                 </div>
             </div>
         </footer>
