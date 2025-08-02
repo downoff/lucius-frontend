@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { motion } from 'framer-motion';
+import { Skeleton } from "@/components/ui/skeleton"; // <-- NEW IMPORT
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -50,8 +51,8 @@ function ConversationPage() {
             const updatedConversation = await response.json();
             if (!response.ok) throw new Error(updatedConversation.message);
             
-            setConversation(updatedConversation); // Update the page with the full new conversation
-            setNewPrompt(''); // Clear the input field
+            setConversation(updatedConversation);
+            setNewPrompt('');
 
         } catch (error) {
             toast.error(error.message);
@@ -60,10 +61,22 @@ function ConversationPage() {
         }
     };
 
-
     if (isLoading) {
-        return <div className="text-center p-8 text-white">Loading conversation...</div>;
+        return (
+            <div className="w-full max-w-3xl mx-auto space-y-6">
+                <Skeleton className="h-10 w-3/4" />
+                <div className="space-y-2 p-4 border border-slate-700 rounded-lg">
+                    <Skeleton className="h-6 w-1/4" />
+                    <Skeleton className="h-24 w-full" />
+                </div>
+                <div className="space-y-2 p-4 border border-slate-700 rounded-lg">
+                    <Skeleton className="h-6 w-1/4" />
+                    <Skeleton className="h-24 w-full" />
+                </div>
+            </div>
+        )
     }
+
     if (!conversation) {
         return <div className="text-center p-8 text-white">Conversation not found.</div>;
     }
@@ -82,7 +95,6 @@ function ConversationPage() {
                         </div>
                     ))}
                     
-                    {/* NEW: Chat Input Form */}
                     <form onSubmit={handleContinueConversation} className="mt-6">
                          <div className="relative">
                             <Textarea

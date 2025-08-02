@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { motion } from 'framer-motion';
+import { Skeleton } from "@/components/ui/skeleton"; // <-- NEW IMPORT
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -55,7 +56,19 @@ function ContentHubPage() {
     }, []);
 
     if (isLoading) {
-        return <div className="text-center p-8 text-white">Loading your content hub...</div>;
+        return (
+            <div>
+                <div className="mb-8">
+                    <h1 className="text-3xl font-bold">Content Command Center</h1>
+                    <p className="text-slate-400">All of your generated content, in one place.</p>
+                </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <Skeleton className="h-48 w-full" />
+                    <Skeleton className="h-48 w-full" />
+                    <Skeleton className="h-48 w-full" />
+                </div>
+            </div>
+        );
     }
 
     return (

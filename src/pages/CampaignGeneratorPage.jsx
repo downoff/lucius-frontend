@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { motion } from 'framer-motion';
+import { Skeleton } from "@/components/ui/skeleton"; // <-- NEW IMPORT
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -90,9 +91,15 @@ function CampaignGeneratorPage() {
                     </form>
 
                     {isLoading && (
-                        <div className="text-center p-8">
-                            <div className="loader"></div>
-                            <p className="text-slate-400 mt-4">Building your strategic campaign...</p>
+                        <div className="space-y-6">
+                            <div className="space-y-4 p-4 border border-slate-700 rounded-lg">
+                                <Skeleton className="h-8 w-1/4" />
+                                <Skeleton className="h-20 w-full" />
+                            </div>
+                            <div className="space-y-4 p-4 border border-slate-700 rounded-lg">
+                                <Skeleton className="h-8 w-1/4" />
+                                <Skeleton className="h-20 w-full" />
+                            </div>
                         </div>
                     )}
 
