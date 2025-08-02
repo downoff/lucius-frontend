@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,23 +8,24 @@ import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-// This is a placeholder for your list of niches. We will expand this later.
-const niches = {
-    "real-estate-agents": {
-        title: "Real Estate Agents",
-        placeholder: "e.g., A new 4-bedroom house listing with a modern kitchen."
-    },
-    "fitness-coaches": {
-        title: "Fitness Coaches",
-        placeholder: "e.g., A high-intensity interval training (HIIT) workout."
-    }
-};
+// NEW: Import the generated page data
+import pageData from '../pages.json';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function MicroToolPage() {
     const { nicheSlug } = useParams();
-    const niche = niches[nicheSlug];
+    
+    // NEW: Find the current niche's data from the imported JSON
+    const [niche, setNiche] = useState(null);
+
+    useEffect(() => {
+        const currentNiche = pageData.find(p => p.slug === nicheSlug);
+        if (currentNiche) {
+            setNiche(currentNiche);
+        }
+    }, [nicheSlug]);
+
 
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -51,8 +52,13 @@ export default function MicroToolPage() {
         }
     };
     
+    // Show a loading or not found state while the niche data is being set
     if (!niche) {
-        return <div>Niche not found.</div>; // Fallback
+        return (
+             <div className="w-full min-h-screen bg-slate-900 text-white flex justify-center items-center">
+                Loading...
+            </div>
+        );
     }
 
     return (
