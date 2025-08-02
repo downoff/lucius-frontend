@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import Header from './components/Header';
 import ProtectedRoute from './components/ProtectedRoute';
+import ActivityLoop from './components/ActivityLoop'; // <-- NEW
 
 // Import all of your page components
 import LandingPage from './pages/LandingPage';
@@ -29,7 +30,11 @@ import TermsPage from './pages/TermsPage';
 import PrivacyPage from './pages/PrivacyPage';
 import TweetHookGeneratorPage from './pages/TweetHookGeneratorPage';
 import ToneAnalyzerPage from './pages/ToneAnalyzerPage';
-import InstagramCarouselGenerator from './pages/InstagramCarouselGenerator'; // <-- NEW
+import MicroToolPage from './pages/MicroToolPage';
+import InstagramCarouselGenerator from './pages/InstagramCarouselGenerator';
+import ReferralPage from './pages/ReferralPage';
+import ContactPage from './pages/ContactPage';
+
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -39,9 +44,11 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/free-tools/tweet-hook-generator" element={<TweetHookGeneratorPage />} />
         <Route path="/free-tools/tone-analyzer" element={<ToneAnalyzerPage />} />
-        <Route path="/free-tools/instagram-carousel-generator" element={<InstagramCarouselGenerator />} /> {/* <-- NEW ROUTE */}
+        <Route path="/free-tools/instagram-carousel-generator" element={<InstagramCarouselGenerator />} />
+        <Route path="/tools/:nicheSlug" element={<MicroToolPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/pricing" element={<PricingPage />} />
@@ -68,10 +75,11 @@ function App() {
         {/* Standalone Protected Pages */}
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
         <Route path="/brand-voice" element={<ProtectedRoute><BrandVoicePage /></ProtectedRoute>} />
-        <Route path="/referrals" element={<ProtectedRoute><ReferralPage />} />
+        <Route path="/referrals" element={<ProtectedRoute><ReferralPage /></ProtectedRoute>} />
 
       </Routes>
       <Toaster />
+      <ActivityLoop /> {/* <-- NEW: The final piece of the Sigil Engine */}
     </>
   )
 }
