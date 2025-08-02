@@ -20,7 +20,7 @@ export default function LandingPage() {
                     initial="hidden"
                     animate="visible"
                 >
-                    {/* NEW: Logo is now prominently displayed here */}
+                    {/* THIS IS THE FIX: The logo is now back above the main heading */}
                     <motion.div variants={itemVariants} className="flex justify-center mb-6">
                         <img src="/assets/logo.png" alt="Lucius AI Logo" className="w-24 h-24 md:w-32 md:h-32" />
                     </motion.div>
