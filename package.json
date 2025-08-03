@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "generate:pages": "node generate-pages.mjs",
+    "generate:pages": "node scripts/generate-pages.mjs",
     "build": "npm run generate:pages && vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
