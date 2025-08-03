@@ -2,8 +2,8 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from "path"
 import fs from 'fs';
-// This path is now correct because niches.js is inside the src folder.
-import { niches } from './src/data/niches.js';
+// This now correctly requires the .cjs file
+const { niches } = require('./src/data/niches.cjs');
 
 // --- The Final "Sentient" SEO Plugin ---
 const generateSitemapPlugin = () => {

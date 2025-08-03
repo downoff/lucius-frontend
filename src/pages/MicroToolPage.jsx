@@ -8,19 +8,22 @@ import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-// This path is now correct because the data is in the right place.
-import { niches } from '../data/niches.js';
+// This is the final, correct path to your data file
+import { niches } from '../data/niches.cjs';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function MicroToolPage() {
     const { nicheSlug } = useParams();
+    
+    // The data is now found instantly and synchronously
     const niche = niches.find(p => p.slug === nicheSlug);
 
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState('');
     
+    // This pre-fills the prompt with the correct placeholder when the page loads
     useEffect(() => {
         if(niche) {
             setPrompt(niche.placeholder);
@@ -48,6 +51,7 @@ export default function MicroToolPage() {
         }
     };
     
+    // This correctly handles the case where a user enters an invalid URL
     if (!niche) {
         return <div className="w-full min-h-screen bg-slate-900 text-white flex justify-center items-center">Niche not found. Please check the URL.</div>;
     }
