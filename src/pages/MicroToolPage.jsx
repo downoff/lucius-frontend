@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'; // <-- This is the corrected line
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,22 +8,19 @@ import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-// Import the niche data directly from your source code
+// This path is now correct because the data is in the right place.
 import { niches } from '../data/niches.js';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function MicroToolPage() {
     const { nicheSlug } = useParams();
-    
-    // The data is now found instantly and synchronously
     const niche = niches.find(p => p.slug === nicheSlug);
 
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState('');
     
-    // Pre-fill the prompt when the page loads
     useEffect(() => {
         if(niche) {
             setPrompt(niche.placeholder);

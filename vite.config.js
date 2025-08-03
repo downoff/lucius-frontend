@@ -1,14 +1,14 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from "path"
-import fs from 'fs'; // <-- NEW: Import Node.js file system module
-import { niches } from './src/data/niches.js'; // <-- NEW: Import niche data
+import fs from 'fs';
+// This path is now correct because niches.js is inside the src folder.
+import { niches } from './src/data/niches.js';
 
 // --- The Final "Sentient" SEO Plugin ---
 const generateSitemapPlugin = () => {
   return {
     name: 'generate-sitemap',
-    // This function will run automatically after the build is complete
     writeBundle() {
       console.log('Generating sitemap...');
       const baseUrl = 'https://www.ailucius.com';
@@ -32,19 +32,16 @@ const generateSitemapPlugin = () => {
   </url>`).join('')}
 </urlset>
       `.trim();
-
-      // Write the sitemap to the final 'dist' folder
       fs.writeFileSync(path.resolve(__dirname, 'dist', 'sitemap.xml'), sitemapContent);
       console.log(`Successfully generated sitemap.xml with ${allPages.length} URLs.`);
     }
   }
 }
 
-
 export default defineConfig({
   plugins: [
     react(),
-    generateSitemapPlugin() // <-- NEW: Activate our custom plugin
+    generateSitemapPlugin()
   ],
   resolve: {
     alias: {
