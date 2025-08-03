@@ -52,7 +52,7 @@ export const niches = [
     
     // Education & Non-Profit
     { slug: "online-course-creators", title: "Online Course Creators", placeholder: "e.g., Enrollment for my new masterclass is now open." },
-    { slug:g: "non-profit-organizations", title: "Non-Profit Organizations", placeholder: "e.g., A fundraising campaign for our new community outreach program." },
+    { slug: "non-profit-organizations", title: "Non-Profit Organizations", placeholder: "e.g., A fundraising campaign for our new community outreach program." },
     { slug: "tutors", title: "Tutors", placeholder: "e.g., I have a few spots open for new students this semester." },
     { slug: "universities", title: "Universities", placeholder: "e.g., Applications for the fall semester are now being accepted." },
     
