@@ -10,8 +10,9 @@ const pageData = niches.map(niche => ({
     title: niche.title,
     placeholder: niche.placeholder,
 }));
-fs.writeFileSync('./src/pages.json', JSON.stringify(pageData, null, 2));
-console.log(`Successfully generated data for ${pageData.length} pages into src/pages.json`);
+// UPDATED: Save the file to the 'public' folder so we can fetch it
+fs.writeFileSync('./public/pages.json', JSON.stringify(pageData, null, 2));
+console.log(`Successfully generated data for ${pageData.length} pages into public/pages.json`);
 
 
 // --- 2. Generate the sitemap.xml file ---
@@ -19,9 +20,7 @@ const baseUrl = 'https://www.ailucius.com';
 const staticPages = [
     { loc: `${baseUrl}/`, priority: '1.00' },
     { loc: `${baseUrl}/pricing`, priority: '0.80' },
-    { loc: `${baseUrl}/login`, priority: '0.80' },
-    { loc: `${baseUrl}/signup`, priority: '0.80' },
-    { loc: `${baseUrl}/blog`, priority: '0.80' },
+    // ... add other static pages if needed
 ];
 
 const pSEO_Pages = niches.map(niche => ({
