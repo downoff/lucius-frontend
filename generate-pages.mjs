@@ -1,26 +1,14 @@
 // generate-pages.mjs
 import fs from 'fs';
-import { niches } from './niches.js';
+import { niches } from './src/data/niches.js'; // <-- Updated path
 
-console.log('Starting page and sitemap generation...');
+console.log('Starting sitemap generation...');
 
-// --- 1. Generate the pages.json file ---
-const pageData = niches.map(niche => ({
-    slug: niche.slug,
-    title: niche.title,
-    placeholder: niche.placeholder,
-}));
-// UPDATED: Save the file to the 'public' folder so we can fetch it
-fs.writeFileSync('./public/pages.json', JSON.stringify(pageData, null, 2));
-console.log(`Successfully generated data for ${pageData.length} pages into public/pages.json`);
-
-
-// --- 2. Generate the sitemap.xml file ---
 const baseUrl = 'https://www.ailucius.com';
 const staticPages = [
     { loc: `${baseUrl}/`, priority: '1.00' },
     { loc: `${baseUrl}/pricing`, priority: '0.80' },
-    // ... add other static pages if needed
+    { loc: `${baseUrl}/blog`, priority: '0.80' },
 ];
 
 const pSEO_Pages = niches.map(niche => ({
@@ -28,7 +16,6 @@ const pSEO_Pages = niches.map(niche => ({
     priority: '0.80'
 }));
 
-// We can add blog post URLs here later
 const allPages = [...staticPages, ...pSEO_Pages];
 
 const sitemapContent = `

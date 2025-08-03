@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, 'useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,47 +8,27 @@ import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
+// NEW: Import the niche data directly from your source code
+import { niches } from '../data/niches.js';
+
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function MicroToolPage() {
     const { nicheSlug } = useParams();
-    const [niche, setNiche] = useState(null);
-    const [isLoadingPage, setIsLoadingPage] = useState(true);
-
-    // This useEffect hook now fetches the page data from the server
-    useEffect(() => {
-        const fetchPageData = async () => {
-            try {
-                // Fetch the generated JSON file from the public folder
-                const response = await fetch('/pages.json');
-                const allNiches = await response.json();
-                const currentNiche = allNiches.find(p => p.slug === nicheSlug);
-
-                if (currentNiche) {
-                    setNiche(currentNiche);
-                }
-            } catch (error) {
-                console.error("Failed to load page data", error);
-            } finally {
-                setIsLoadingPage(false);
-            }
-        };
-
-        fetchPageData();
-    }, [nicheSlug]);
-
+    
+    // The data is now found instantly and synchronously, no need for a loading state
+    const niche = niches.find(p => p.slug === nicheSlug);
 
     const [prompt, setPrompt] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState('');
-
-    // This useEffect hook pre-fills the prompt once the niche data is loaded
+    
+    // Pre-fill the prompt when the page loads
     useEffect(() => {
         if(niche) {
             setPrompt(niche.placeholder);
         }
     }, [niche]);
-
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -71,8 +51,8 @@ export default function MicroToolPage() {
         }
     };
     
-    if (isLoadingPage || !niche) {
-        return <div className="w-full min-h-screen bg-slate-900 text-white flex justify-center items-center">Loading...</div>;
+    if (!niche) {
+        return <div className="w-full min-h-screen bg-slate-900 text-white flex justify-center items-center">Niche not found. Please check the URL.</div>;
     }
 
     return (
