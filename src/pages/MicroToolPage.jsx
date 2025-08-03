@@ -1,4 +1,4 @@
-import React, 'useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // <-- This is the corrected line
 import { useParams, Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
-// NEW: Import the niche data directly from your source code
+// Import the niche data directly from your source code
 import { niches } from '../data/niches.js';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -16,7 +16,7 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 export default function MicroToolPage() {
     const { nicheSlug } = useParams();
     
-    // The data is now found instantly and synchronously, no need for a loading state
+    // The data is now found instantly and synchronously
     const niche = niches.find(p => p.slug === nicheSlug);
 
     const [prompt, setPrompt] = useState('');
