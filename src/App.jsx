@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import Header from './components/Header';
 import ProtectedRoute from './components/ProtectedRoute';
-import ActivityLoop from './components/ActivityLoop'; // <-- NEW
+import ActivityLoop from './components/ActivityLoop';
 
 // Import all of your page components
 import LandingPage from './pages/LandingPage';
@@ -34,7 +34,7 @@ import MicroToolPage from './pages/MicroToolPage';
 import InstagramCarouselGenerator from './pages/InstagramCarouselGenerator';
 import ReferralPage from './pages/ReferralPage';
 import ContactPage from './pages/ContactPage';
-
+import PurchaseSuccessPage from './pages/PurchaseSuccessPage'; // <-- NEW
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -44,6 +44,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/purchase-success" element={<PurchaseSuccessPage />} /> {/* <-- NEW ROUTE */}
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/free-tools/tweet-hook-generator" element={<TweetHookGeneratorPage />} />
         <Route path="/free-tools/tone-analyzer" element={<ToneAnalyzerPage />} />
@@ -79,7 +80,7 @@ function App() {
 
       </Routes>
       <Toaster />
-      <ActivityLoop /> {/* <-- NEW: The final piece of the Sigil Engine */}
+      <ActivityLoop />
     </>
   )
 }
