@@ -81,3 +81,19 @@
     transform: rotate(360deg);
   }
 }
+
+/* --- Final Streaming Text Effect --- */
+.streaming-text-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1.2em;
+  background-color: #A78BFA; /* A lighter purple */
+  margin-left: 4px;
+  animation: blink 1s infinite;
+  box-shadow: 0 0 5px #A78BFA, 0 0 10px #A78BFA;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
