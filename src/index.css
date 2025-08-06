@@ -1,9 +1,11 @@
-/* 1. Import the base styles for Tailwind CSS */
+/* 1. Import the base styles for Tailwind CSS. This must come first. */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 2. Define the theme variables for Shadcn/UI */
+/* 2. Define the theme variables for Shadcn/UI. 
+   This is where 'border-border' and all other custom styles get created.
+*/
 @layer base {
   :root {
     --background: 222.2 84% 4.9%;
@@ -29,7 +31,9 @@
   }
 }
 
-/* 3. Apply the base styles */
+/* 3. Apply the base styles. 
+   This can only happen AFTER the variables have been defined above.
+*/
 @layer base {
   * {
     @apply border-border;
@@ -81,20 +85,4 @@ body {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-}
-
-/* --- Final Streaming Text Effect --- */
-.streaming-text-cursor {
-  display: inline-block;
-  width: 3px;
-  height: 1.2em;
-  background-color: #A78BFA; /* A lighter purple */
-  margin-left: 4px;
-  animation: blink 1s infinite;
-  box-shadow: 0 0 5px #A78BFA, 0 0 10px #A78BFA;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
 }
