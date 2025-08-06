@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import Header from './components/Header';
 import ProtectedRoute from './components/ProtectedRoute';
-import InitialRouteHandler from './components/InitialRouteHandler'; // <-- NEW
+import InitialRouteHandler from './components/InitialRouteHandler';
 import ActivityLoop from './components/ActivityLoop';
 
 // Import all of your page components
@@ -13,6 +13,7 @@ import SignupPage from './pages/SignupPage';
 import PricingPage from './pages/PricingPage';
 import DashboardPage from './pages/DashboardPage';
 import AuthSuccessPage from './pages/AuthSuccessPage';
+import AppLayout from './layouts/AppLayout';
 import SocialStudio from './pages/SocialStudio';
 import ImageGenerator from './pages/ImageGenerator';
 import SchedulerPage from './pages/SchedulerPage';
@@ -35,7 +36,8 @@ import InstagramCarouselGenerator from './pages/InstagramCarouselGenerator';
 import ReferralPage from './pages/ReferralPage';
 import ContactPage from './pages/ContactPage';
 import PurchaseSuccessPage from './pages/PurchaseSuccessPage';
-import OnboardingPage from './pages/OnboardingPage'; // <-- NEW
+import OnboardingPage from './pages/OnboardingPage';
+import CanvasPage from './pages/CanvasPage'; // <-- NEW
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -64,8 +66,18 @@ function App() {
         {/* Onboarding Route */}
         <Route path="/onboarding" element={<ProtectedRoute><OnboardingPage /></ProtectedRoute>} />
 
-        {/* Main Application - NOW PROTECTED BY THE INITIAL ROUTE HANDLER */}
-        <Route path="/app/*" element={<ProtectedRoute><InitialRouteHandler /></ProtectedRoute>} />
+        {/* Main Application */}
+        <Route path="/app" element={<ProtectedRoute><InitialRouteHandler /></ProtectedRoute>}>
+          <Route index element={<CanvasPage />} /> {/* <-- The Canvas is now the default page */}
+          <Route path="social-studio" element={<SocialStudio />} />
+          <Route path="campaign-generator" element={<CampaignGeneratorPage />} />
+          <Route path="carousel-creator" element={<CarouselCreatorPage />} />
+          <Route path="hashtag-generator" element={<HashtagGeneratorPage />} />
+          <Route path="weekly-planner" element={<WeeklyPlannerPage />} />
+          <Route path="image-generator" element={<ImageGenerator />} />
+          <Route path="scheduler" element={<SchedulerPage />} />
+          <Route path="c/:conversationId" element={<ConversationPage />} />
+        </Route>
 
         {/* Standalone Protected Pages */}
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
