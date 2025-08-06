@@ -21,6 +21,7 @@ export default function InteractiveDemo() {
         setHasGenerated(true);
 
         try {
+            // This is the corrected POST request using fetch
             const response = await fetch(`${backendUrl}/api/public/generate-demo`, {
                 method: 'POST',
                 headers: {
@@ -29,37 +30,15 @@ export default function InteractiveDemo() {
                 body: JSON.stringify({ prompt }),
             });
 
-            if (!response.ok || !response.body) {
-                throw new Error('Failed to connect to the AI server.');
+            if (!response.ok) {
+                // This will provide a more detailed error if the server has an issue
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to connect to the AI server.');
             }
+            
+            const data = await response.json();
+            setResult(data.text);
 
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-
-            while (true) {
-                const { value, done } = await reader.read();
-                if (done) {
-                    break;
-                }
-                const chunk = decoder.decode(value);
-                const lines = chunk.split('\n');
-                
-                for (const line of lines) {
-                    if (line.startsWith('data: ')) {
-                        const data = line.substring(6);
-                        if (data) {
-                            try {
-                                const parsed = JSON.parse(data);
-                                if (parsed.text) {
-                                    setResult(prevResult => prevResult + parsed.text);
-                                }
-                            } catch (e) {
-                                console.error("Error parsing stream data:", e);
-                            }
-                        }
-                    }
-                }
-            }
         } catch (error) {
             toast.error(error.message);
         } finally {
@@ -83,7 +62,9 @@ export default function InteractiveDemo() {
                         </Button>
                     </form>
 
-                    {(isLoading || result) && <StreamingResult result={result} isLoading={isLoading} />}
+                    {isLoading && <div className="text-center p-8"><div className="loader mx-auto"></div></div>}
+                    
+                    {result && <StreamingResult result={result} isLoading={isLoading} />}
                     
                     {hasGenerated && !isLoading && (
                         <div className="mt-6 text-center bg-purple-900/30 p-4 rounded-lg">
