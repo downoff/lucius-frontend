@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
@@ -13,16 +13,6 @@ export default function InteractiveDemo() {
     const [isLoading, setIsLoading] = useState(false);
     const [result, setResult] = useState('');
     const [hasGenerated, setHasGenerated] = useState(false);
-    const [eventSource, setEventSource] = useState(null);
-
-    useEffect(() => {
-        // This ensures the EventSource connection is closed if the user navigates away
-        return () => {
-            if (eventSource) {
-                eventSource.close();
-            }
-        };
-    }, [eventSource]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -30,32 +20,29 @@ export default function InteractiveDemo() {
         setResult('');
         setHasGenerated(true);
 
-        const newEventSource = new EventSource(`${backendUrl}/api/public/generate-demo?prompt=${encodeURIComponent(prompt)}`);
-        setEventSource(newEventSource);
+        try {
+            // THIS IS THE CORRECT POST REQUEST
+            const response = await fetch(`${backendUrl}/api/public/generate-demo`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt }),
+            });
 
-        newEventSource.onmessage = (e) => {
-            const parsedData = JSON.parse(e.data);
-
-            if (parsedData.event === 'close') {
-                setIsLoading(false);
-                newEventSource.close();
-                return;
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to connect to the AI server.');
             }
+            
+            const data = await response.json();
+            setResult(data.text);
 
-            if (parsedData.error) {
-                toast.error(parsedData.error);
-                setIsLoading(false);
-                newEventSource.close();
-            } else {
-                setResult(prevResult => prevResult + parsedData.text);
-            }
-        };
-
-        newEventSource.onerror = () => {
-            toast.error("Connection to the AI server failed. Please try again.");
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
             setIsLoading(false);
-            newEventSource.close();
-        };
+        }
     };
 
     return (
@@ -74,7 +61,9 @@ export default function InteractiveDemo() {
                         </Button>
                     </form>
 
-                    {(isLoading || hasGenerated) && <StreamingResult result={result} isLoading={isLoading} />}
+                    {isLoading && <div className="text-center p-8"><div className="loader mx-auto"></div></div>}
+                    
+                    {result && <StreamingResult result={result} isLoading={isLoading} />}
                     
                     {hasGenerated && !isLoading && (
                         <div className="mt-6 text-center bg-purple-900/30 p-4 rounded-lg">
