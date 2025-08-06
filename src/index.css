@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* 2. Theme variables for Shadcn/UI */
+/* 2. Theme variables for Shadcn UI */
 @layer base {
   :root {
     --background: 222.2 84% 4.9%;
@@ -50,16 +50,17 @@
   gap: 8px;
   text-decoration: none;
 }
+
 .logo-image {
   height: 32px;
   width: auto;
   object-fit: contain;
 }
+
 .glass-card {
   @apply border border-slate-700/60 bg-slate-800/50 shadow-lg;
 }
 
-/* Backdrop blur support */
 @supports (backdrop-filter: blur(8px)) {
   .glass-card {
     background-color: rgba(30, 41, 59, 0.4);
