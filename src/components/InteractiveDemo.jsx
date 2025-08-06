@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Link } from 'react-router-dom';
-import StreamingResult from './StreamingResult'; // <-- NEW
+import StreamingResult from './StreamingResult';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -14,44 +14,57 @@ export default function InteractiveDemo() {
     const [result, setResult] = useState('');
     const [hasGenerated, setHasGenerated] = useState(false);
 
-    useEffect(() => {
-        // This ensures the EventSource connection is closed if the user navigates away
-        return () => {
-            // We'll manage the EventSource instance inside the handleSubmit function
-        };
-    }, []);
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         setIsLoading(true);
         setResult('');
         setHasGenerated(true);
 
-        const eventSource = new EventSource(`${backendUrl}/api/public/generate-demo?prompt=${encodeURIComponent(prompt)}`);
+        try {
+            const response = await fetch(`${backendUrl}/api/public/generate-demo`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ prompt }),
+            });
 
-        eventSource.onmessage = (event) => {
-            const parsedData = JSON.parse(event.data);
-            if (parsedData.error) {
-                toast.error(parsedData.error);
-                eventSource.close();
-                setIsLoading(false);
-            } else {
-                setResult(prevResult => prevResult + parsedData.text);
+            if (!response.ok || !response.body) {
+                throw new Error('Failed to connect to the AI server.');
             }
-        };
 
-        eventSource.onerror = () => {
-            toast.error("Connection to the AI server failed. Please try again.");
-            eventSource.close();
-            setIsLoading(false);
-        };
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
 
-        // This event fires when the stream is closed from the server
-        eventSource.addEventListener('close', () => {
-            eventSource.close();
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) {
+                    break;
+                }
+                const chunk = decoder.decode(value);
+                const lines = chunk.split('\n');
+                
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        const data = line.substring(6);
+                        if (data) {
+                            try {
+                                const parsed = JSON.parse(data);
+                                if (parsed.text) {
+                                    setResult(prevResult => prevResult + parsed.text);
+                                }
+                            } catch (e) {
+                                console.error("Error parsing stream data:", e);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (error) {
+            toast.error(error.message);
+        } finally {
             setIsLoading(false);
-        });
-        
+        }
     };
 
     return (
