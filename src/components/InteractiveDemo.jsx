@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Link } from 'react-router-dom';
-import StreamingResult from './StreamingResult';
+import StreamingResult from './StreamingResult'; // Assuming this component exists
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -20,30 +20,31 @@ export default function InteractiveDemo() {
         setResult('');
         setHasGenerated(true);
 
-        try {
-            // This is the corrected POST request using fetch
-            const response = await fetch(`${backendUrl}/api/public/generate-demo`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ prompt }),
-            });
+        const eventSource = new EventSource(`${backendUrl}/api/public/generate-demo?prompt=${encodeURIComponent(prompt)}`);
 
-            if (!response.ok) {
-                // This will provide a more detailed error if the server has an issue
-                const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to connect to the AI server.');
+        eventSource.onmessage = (event) => {
+            const parsedData = JSON.parse(event.data);
+
+            if (parsedData.event === 'close') {
+                setIsLoading(false);
+                eventSource.close();
+                return;
             }
-            
-            const data = await response.json();
-            setResult(data.text);
 
-        } catch (error) {
-            toast.error(error.message);
-        } finally {
+            if (parsedData.error) {
+                toast.error(parsedData.error);
+                setIsLoading(false);
+                eventSource.close();
+            } else {
+                setResult(prevResult => prevResult + parsedData.text);
+            }
+        };
+
+        eventSource.onerror = () => {
+            toast.error("Connection to the AI server failed. Please try again.");
             setIsLoading(false);
-        }
+            eventSource.close();
+        };
     };
 
     return (
@@ -62,14 +63,12 @@ export default function InteractiveDemo() {
                         </Button>
                     </form>
 
-                    {isLoading && <div className="text-center p-8"><div className="loader mx-auto"></div></div>}
-                    
-                    {result && <StreamingResult result={result} isLoading={isLoading} />}
+                    {(isLoading || hasGenerated) && <StreamingResult result={result} isLoading={isLoading} />}
                     
                     {hasGenerated && !isLoading && (
                         <div className="mt-6 text-center bg-purple-900/30 p-4 rounded-lg">
                             <h4 className="font-bold">This is just 1% of the power.</h4>
-                            <p className="text-slate-300 mt-1">Sign up to unlock the Brand Voice AI, Campaign Generator, and more.</p>
+                            <p className="text-slate-300 mt-1">Sign up to unlock the Brand Voice AI and more.</p>
                             <Link to="/signup">
                                 <Button size="lg" className="mt-4">Unlock All Features</Button>
                             </Link>
