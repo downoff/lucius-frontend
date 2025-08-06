@@ -1,11 +1,9 @@
-/* 1. Import the base styles for Tailwind CSS. This must come first. */
+/* 1. Tailwind base imports */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 2. Define the theme variables for Shadcn/UI. 
-   This is where 'border-border' and all other custom styles get created.
-*/
+/* 2. Theme variables for Shadcn/UI */
 @layer base {
   :root {
     --background: 222.2 84% 4.9%;
@@ -29,53 +27,49 @@
     --ring: 212.7 26.8% 83.9%;
     --radius: 0.5rem;
   }
-}
 
-/* 3. Apply the base styles. 
-   This can only happen AFTER the variables have been defined above.
-*/
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+    background-image: radial-gradient(
+      circle at 1px 1px,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 0
+    );
+    background-size: 2rem 2rem;
   }
 }
 
-/* =============================================== */
-/* V3 Professional UI Styles                       */
-/* =============================================== */
-
-/* Header Logo Styling */
+/* 3. Custom styles */
 .logo {
   display: flex;
   align-items: center;
   gap: 8px;
   text-decoration: none;
 }
-
 .logo-image {
   height: 32px;
   width: auto;
   object-fit: contain;
 }
-
-/* Glassmorphism Card Style */
 .glass-card {
-  @apply border border-slate-700/60 bg-slate-800/50 shadow-lg supports-[backdrop-blur]:bg-slate-800/40 supports-[backdrop-blur]:backdrop-blur-xl;
+  @apply border border-slate-700/60 bg-slate-800/50 shadow-lg;
 }
 
-/* A subtle background pattern for the whole app to make the glass effect pop */
-body {
-    background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
-    background-size: 2rem 2rem;
+/* Backdrop blur support */
+@supports (backdrop-filter: blur(8px)) {
+  .glass-card {
+    background-color: rgba(30, 41, 59, 0.4);
+    backdrop-filter: blur(12px);
+  }
 }
 
-/* Simple CSS Loader for loading states */
 .loader {
-  border: 4px solid #f3f3f330; /* Light grey */
-  border-top: 4px solid #8B5CF6; /* Purple */
+  border: 4px solid #f3f3f330;
+  border-top: 4px solid #8b5cf6;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -83,6 +77,10 @@ body {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
