@@ -9,7 +9,7 @@ import { motion } from 'framer-motion';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-function LoginPage() {
+export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -28,8 +28,9 @@ function LoginPage() {
             if (response.ok) {
                 toast.success('Login successful! Redirecting...');
                 localStorage.setItem('token', data.token);
+                // We use window.location.href to force a full reload, which is better for the header to update
                 setTimeout(() => {
-                    window.location.href = '/app'; // Redirect to the main app layout
+                    window.location.href = '/app';
                 }, 1500);
             } else {
                 toast.error(`Error: ${data.message}`);
@@ -44,7 +45,7 @@ function LoginPage() {
     return (
         <div className="w-full min-h-screen flex items-center justify-center bg-slate-900 text-white p-4">
             <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.3 }}>
-                <Card className="w-full max-w-md mx-auto bg-slate-800/50 border-slate-700 text-white">
+                <Card className="w-full max-w-md mx-auto glass-card text-white">
                     <CardHeader className="text-center">
                         <Link to="/" className="logo mx-auto mb-4">
                             <img src="/assets/logo.png" alt="Lucius Logo" className="logo-image" />
@@ -85,5 +86,3 @@ function LoginPage() {
         </div>
     );
 }
-
-export default LoginPage;
