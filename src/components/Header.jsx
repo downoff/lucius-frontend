@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-function Header() {
+export default function Header() {
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
 
@@ -30,13 +30,9 @@ function Header() {
         };
         fetchUser();
 
-        const handleStorageChange = () => {
-            fetchUser();
-        };
+        const handleStorageChange = () => fetchUser();
         window.addEventListener('storage', handleStorageChange);
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-        };
+        return () => window.removeEventListener('storage', handleStorageChange);
     }, []);
 
     const handleLogout = () => {
@@ -57,20 +53,16 @@ function Header() {
                 
                 <div className="flex items-center gap-2">
                     {user ? (
-                        // --- Logged-in User View ---
                         <>
                             <span className="text-sm text-slate-400 hidden sm:block">
                                 Credits: <strong className="text-white">{user.isPro ? 'Unlimited' : user.credits}</strong>
                             </span>
-                            <Link to="/app">
-                                <Button variant="ghost">Enter App</Button>
-                            </Link>
+                            <Link to="/app"><Button variant="ghost">Enter App</Button></Link>
                             <Button onClick={handleLogout}>Logout</Button>
                         </>
                     ) : (
-                        // --- Logged-out User View ---
                         <>
-                            <Link to="/blog"><Button variant="ghost">Blog</Button></Link>
+                            <Link to="/free-tools"><Button variant="ghost">Free Tools</Button></Link>
                             <Link to="/pricing"><Button variant="ghost">Pricing</Button></Link>
                             <Link to="/login"><Button variant="ghost">Login</Button></Link>
                             <Link to="/signup"><Button>Sign Up</Button></Link>
@@ -81,5 +73,3 @@ function Header() {
         </header>
     );
 }
-
-export default Header;
