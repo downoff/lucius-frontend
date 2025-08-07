@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom'; 
 
 import Header from './components/Header';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -40,7 +40,7 @@ import OnboardingPage from './pages/OnboardingPage';
 import CanvasPage from './pages/CanvasPage';
 import GTAMissionGenerator from './pages/GTAMissionGenerator';
 import ViralDNAPage from './pages/ViralDNAPage';
-import FreeToolsPage from './pages/FreeToolsPage'; // <-- NEW
+import LiveWinsPage from './pages/LiveWinsPage'; // <-- NEW
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -50,10 +50,11 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/free-tools" element={<FreeToolsPage />} /> {/* <-- NEW ROUTE */}
+        <Route path="/live" element={<LiveWinsPage />} /> {/* <-- NEW ROUTE */}
         <Route path="/viral-dna" element={<ViralDNAPage />} />
         <Route path="/gta" element={<GTAMissionGenerator />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/free-tools" element={<FreeToolsPage />} />
         <Route path="/free-tools/tweet-hook-generator" element={<TweetHookGeneratorPage />} />
         <Route path="/free-tools/tone-analyzer" element={<ToneAnalyzerPage />} />
         <Route path="/free-tools/instagram-carousel-generator" element={<InstagramCarouselGenerator />} />
@@ -68,7 +69,7 @@ function App() {
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/purchase-success" element={<PurchaseSuccessPage />} />
-
+        
         {/* Onboarding Route */}
         <Route path="/onboarding" element={<ProtectedRoute><OnboardingPage /></ProtectedRoute>} />
 
