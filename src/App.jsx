@@ -38,7 +38,8 @@ import ContactPage from './pages/ContactPage';
 import PurchaseSuccessPage from './pages/PurchaseSuccessPage';
 import OnboardingPage from './pages/OnboardingPage';
 import CanvasPage from './pages/CanvasPage';
-import GTAMissionGenerator from './pages/GTAMissionGenerator'; // <-- NEW
+import GTAMissionGenerator from './pages/GTAMissionGenerator';
+import ViralDNAPage from './pages/ViralDNAPage'; // <-- NEW
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -48,7 +49,8 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/gta" element={<GTAMissionGenerator />} /> {/* <-- NEW ROUTE */}
+        <Route path="/viral-dna" element={<ViralDNAPage />} /> {/* <-- NEW ROUTE */}
+        <Route path="/gta" element={<GTAMissionGenerator />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/free-tools/tweet-hook-generator" element={<TweetHookGeneratorPage />} />
         <Route path="/free-tools/tone-analyzer" element={<ToneAnalyzerPage />} />
