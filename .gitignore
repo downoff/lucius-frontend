@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# THIS IS THE CRITICAL FIX: Ignore the main environment file
+.env
