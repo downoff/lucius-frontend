@@ -37,7 +37,8 @@ import ReferralPage from './pages/ReferralPage';
 import ContactPage from './pages/ContactPage';
 import PurchaseSuccessPage from './pages/PurchaseSuccessPage';
 import OnboardingPage from './pages/OnboardingPage';
-import CanvasPage from './pages/CanvasPage'; // <-- NEW
+import CanvasPage from './pages/CanvasPage';
+import GTAMissionGenerator from './pages/GTAMissionGenerator'; // <-- NEW
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -47,6 +48,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
+        <Route path="/gta" element={<GTAMissionGenerator />} /> {/* <-- NEW ROUTE */}
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/free-tools/tweet-hook-generator" element={<TweetHookGeneratorPage />} />
         <Route path="/free-tools/tone-analyzer" element={<ToneAnalyzerPage />} />
@@ -67,17 +69,7 @@ function App() {
         <Route path="/onboarding" element={<ProtectedRoute><OnboardingPage /></ProtectedRoute>} />
 
         {/* Main Application */}
-        <Route path="/app" element={<ProtectedRoute><InitialRouteHandler /></ProtectedRoute>}>
-          <Route index element={<CanvasPage />} /> {/* <-- The Canvas is now the default page */}
-          <Route path="social-studio" element={<SocialStudio />} />
-          <Route path="campaign-generator" element={<CampaignGeneratorPage />} />
-          <Route path="carousel-creator" element={<CarouselCreatorPage />} />
-          <Route path="hashtag-generator" element={<HashtagGeneratorPage />} />
-          <Route path="weekly-planner" element={<WeeklyPlannerPage />} />
-          <Route path="image-generator" element={<ImageGenerator />} />
-          <Route path="scheduler" element={<SchedulerPage />} />
-          <Route path="c/:conversationId" element={<ConversationPage />} />
-        </Route>
+        <Route path="/app/*" element={<ProtectedRoute><InitialRouteHandler /></ProtectedRoute>} />
 
         {/* Standalone Protected Pages */}
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
