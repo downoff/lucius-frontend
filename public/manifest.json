@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Lucius AI: The Social Media Co-Pilot",
+  "version": "1.0",
+  "description": "Your AI co-pilot for social media. Generate world-class content directly on any platform.",
+  "permissions": [
+    "activeTab",
+    "scripting"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "assets/logo-16.png",
+      "48": "assets/logo-48.png",
+      "128": "assets/logo-128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/logo-16.png",
+    "48": "assets/logo-48.png",
+    "128": "assets/logo-128.png"
+  }
+}

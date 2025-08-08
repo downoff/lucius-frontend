@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucius AI</title>
+    <style>
+        /* This is the core styling for our popup window */
+        body {
+            width: 350px;
+            margin: 0;
+            font-family: sans-serif;
+            background-color: #0F172A; /* slate-900 */
+            color: white;
+            background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+            background-size: 2rem 2rem;
+        }
+        .container {
+            padding: 16px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+        .logo-image {
+            height: 24px;
+            width: 24px;
+        }
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        textarea {
+            width: 100%;
+            box-sizing: border-box;
+            background-color: #020617; /* slate-950 */
+            color: white;
+            border: 1px solid #334155; /* slate-700 */
+            border-radius: 6px;
+            padding: 8px;
+            min-height: 80px;
+            font-size: 14px;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            border: none;
+            background-color: #7C3AED; /* purple-600 */
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        button:disabled {
+            background-color: #4C1D95; /* purple-900 */
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 16px;
+            padding: 12px;
+            background-color: #1E293B; /* slate-800 */
+            border-radius: 6px;
+            white-space: pre-wrap;
+            font-size: 14px;
+        }
+        .loader {
+            border: 4px solid #f3f3f330;
+            border-top: 4px solid #8B5CF6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 16px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="/assets/logo-48.png" alt="Lucius Logo" class="logo-image" />
+            <span class="title">Lucius AI Co-Pilot</span>
+        </div>
+        <textarea id="prompt-textarea" placeholder="What's this post about?"></textarea>
+        <button id="generate-btn">Generate</button>
+        <div id="result-container"></div>
+    </div>
+    <script src="popup.js"></script>
+</body>
+</html>
