@@ -41,7 +41,7 @@ import CanvasPage from './pages/CanvasPage';
 import GTAMissionGenerator from './pages/GTAMissionGenerator';
 import ViralDNAPage from './pages/ViralDNAPage';
 import LiveWinsPage from './pages/LiveWinsPage';
-import CanvaMagicPage from './pages/CanvaMagicPage'; // <-- NEW
+import OfferPage from './pages/OfferPage'; // <-- NEW
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -51,7 +51,7 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/canva-magic/:templateId" element={<CanvaMagicPage />} /> {/* <-- NEW ROUTE */}
+        <Route path="/offer" element={<OfferPage />} /> {/* <-- NEW ROUTE */}
         <Route path="/live" element={<LiveWinsPage />} />
         <Route path="/viral-dna" element={<ViralDNAPage />} />
         <Route path="/gta" element={<GTAMissionGenerator />} />
