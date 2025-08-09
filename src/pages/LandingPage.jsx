@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import Header from '@/components/Header';
 import InteractiveDemo from '@/components/InteractiveDemo';
 import Testimonials from '@/components/Testimonials';
