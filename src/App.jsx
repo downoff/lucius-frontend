@@ -7,6 +7,7 @@ import InitialRouteHandler from './components/InitialRouteHandler';
 import ActivityLoop from './components/ActivityLoop';
 
 // Import all of your page components
+import SharePage from './pages/SharePage';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -50,6 +51,7 @@ function App() {
     <>
       <Routes>
         {/* Public Routes */}
+        <Route path="/s/:shareId" element={<SharePage />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/free-tools" element={<FreeToolsPage />} />
         <Route path="/live" element={<LiveWinsPage />} />
