@@ -41,7 +41,7 @@ import CanvasPage from './pages/CanvasPage';
 import GTAMissionGenerator from './pages/GTAMissionGenerator';
 import ViralDNAPage from './pages/ViralDNAPage';
 import LiveWinsPage from './pages/LiveWinsPage';
-import OfferPage from './pages/OfferPage'; // <-- NEW
+import FreeToolsPage from './pages/FreeToolsPage'; // <-- The missing import
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -51,12 +51,11 @@ function App() {
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />
-        <Route path="/offer" element={<OfferPage />} /> {/* <-- NEW ROUTE */}
+        <Route path="/free-tools" element={<FreeToolsPage />} />
         <Route path="/live" element={<LiveWinsPage />} />
         <Route path="/viral-dna" element={<ViralDNAPage />} />
         <Route path="/gta" element={<GTAMissionGenerator />} />
         <Route path="/contact" element={<ContactPage />} />
-        <Route path="/free-tools" element={<FreeToolsPage />} />
         <Route path="/free-tools/tweet-hook-generator" element={<TweetHookGeneratorPage />} />
         <Route path="/free-tools/tone-analyzer" element={<ToneAnalyzerPage />} />
         <Route path="/free-tools/instagram-carousel-generator" element={<InstagramCarouselGenerator />} />
