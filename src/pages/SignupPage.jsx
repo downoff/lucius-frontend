@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner"; // <-- THIS IS THE CRITICAL FIX
+import { toast } from "sonner";
 import { motion } from 'framer-motion';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -14,34 +14,34 @@ export default function SignupPage() {
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [searchParams] = useSearchParams();
-    const referralCode = searchParams.get('ref');
-    const niche = searchParams.get('niche');
-
-    useEffect(() => {
-        if (referralCode) {
-            toast.info("Welcome! A referral bonus will be applied to your account.");
-        }
-    }, [referralCode, niche]);
 
     const handleSignup = async (event) => {
         event.preventDefault();
         setIsLoading(true);
         try {
+            const referralCode = searchParams.get('ref');
+            const niche = searchParams.get('niche');
+
             const response = await fetch(`${backendUrl}/api/users/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password, referralCode, niche }),
+                body: JSON.stringify({
+                    email,
+                    password,
+                    referralCode: referralCode || null,
+                    niche: niche || null
+                }),
             });
+
             const data = await response.json();
-            if (response.ok) {
-                toast.success('Success! Your account has been created.', {
-                  description: 'Please check your email to verify your account.',
-                });
-            } else {
-                toast.error(`Error: ${data.message}`);
-            }
+            if (!response.ok) throw new Error(data.message);
+
+            toast.success('Success! Your account has been created.', {
+                description: 'Please check your email to verify your account.',
+            });
+
         } catch (error) {
-            toast.error('An error occurred. Please try again.');
+            toast.error(error.message || 'An error occurred. Please try again.');
         } finally {
             setIsLoading(false);
         }
