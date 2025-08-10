@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom'; 
+import { Routes, Route } from 'react-router-dom';
 
 import Header from './components/Header';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -70,7 +70,7 @@ function App() {
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
         <Route path="/purchase-success" element={<PurchaseSuccessPage />} />
-        
+
         {/* Onboarding Route */}
         <Route path="/onboarding" element={<ProtectedRoute><OnboardingPage /></ProtectedRoute>} />
 
