@@ -1,56 +1,61 @@
-// frontend/src/pages/SharePage.jsx
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default function SharePage() {
-  const { shareId } = useParams();
-  const [share, setShare] = useState(null);
-  const [loading, setLoading] = useState(true);
+    const { shareId } = useParams();
+    const [share, setShare] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchShare = async () => {
-      try {
-        const res = await fetch(`${BACKEND_URL}/api/public/share/${shareId}`);
-        if (!res.ok) throw new Error('Not found');
-        const json = await res.json();
-        setShare(json.share);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchShare();
-  }, [shareId]);
+    useEffect(() => {
+        const fetchShare = async () => {
+            try {
+                const response = await fetch(`${backendUrl}/api/public/share/${shareId}`);
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.message);
+                setShare(data.share);
+            } catch (error) {
+                console.error(error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        fetchShare();
+    }, [shareId]);
 
-  if (loading) return <div className="p-8 text-center">Loading...</div>;
-  if (!share) return <div className="p-8 text-center">Shared content not found.</div>;
+    if (isLoading) {
+        return <div className="text-center p-8 text-white">Loading...</div>;
+    }
 
-  return (
-    <div className="min-h-screen bg-gray-50 text-gray-900">
-      <header className="py-6 border-b bg-white">
-        <div className="container mx-auto px-4">
-          <Link to="/" className="text-lg font-bold">Lucius AI</Link>
+    if (!share) {
+        return <div className="text-center p-8 text-white">Shared content not found.</div>;
+    }
+
+    return (
+        <div className="w-full min-h-screen bg-slate-900 text-white flex flex-col font-sans">
+            <Header />
+            <main className="flex-grow container mx-auto px-4 py-16">
+                <Card className="max-w-3xl mx-auto glass-card text-white">
+                    <CardHeader>
+                        <CardTitle>{share.content.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div dangerouslySetInnerHTML={{ __html: share.content.text }} />
+                    </CardContent>
+                </Card>
+                {share.watermark && (
+                    <div className="text-center mt-4">
+                        <a href="https://www.ailucius.com" target="_blank" rel="noopener noreferrer" className="text-sm text-slate-400 hover:text-white">
+                            ✨ Generated with Lucius AI
+                        </a>
+                    </div>
+                )}
+            </main>
+            <Footer />
         </div>
-      </header>
-
-      <main className="container mx-auto px-4 py-12">
-        <article className="max-w-3xl mx-auto bg-white rounded-lg shadow p-8">
-          <h1 className="text-2xl font-semibold mb-4">{share.content.title}</h1>
-          <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: share.content.text }} />
-          {share.watermark && (
-            <div className="mt-6 text-sm text-gray-500">
-              ✨ <a href="https://www.ailucius.com" target="_blank" rel="noreferrer" className="underline">Generated with Lucius AI</a>
-            </div>
-          )}
-        </article>
-      </main>
-
-      <footer className="py-8 text-center text-sm text-gray-500">
-        <div>Share ID: {share.shareId}</div>
-      </footer>
-    </div>
-  );
+    );
 }

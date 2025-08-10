@@ -7,7 +7,6 @@ import InitialRouteHandler from './components/InitialRouteHandler';
 import ActivityLoop from './components/ActivityLoop';
 
 // Import all of your page components
-import SharePage from './pages/SharePage';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
@@ -42,7 +41,7 @@ import CanvasPage from './pages/CanvasPage';
 import GTAMissionGenerator from './pages/GTAMissionGenerator';
 import ViralDNAPage from './pages/ViralDNAPage';
 import LiveWinsPage from './pages/LiveWinsPage';
-import FreeToolsPage from './pages/FreeToolsPage'; // <-- The missing import
+import SharePage from './pages/SharePage'; // <-- NEW
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -51,13 +50,13 @@ function App() {
     <>
       <Routes>
         {/* Public Routes */}
-        <Route path="/s/:shareId" element={<SharePage />} />
         <Route path="/" element={<LandingPage />} />
-        <Route path="/free-tools" element={<FreeToolsPage />} />
+        <Route path="/s/:shareId" element={<SharePage />} /> {/* <-- NEW ROUTE */}
         <Route path="/live" element={<LiveWinsPage />} />
         <Route path="/viral-dna" element={<ViralDNAPage />} />
         <Route path="/gta" element={<GTAMissionGenerator />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/free-tools" element={<FreeToolsPage />} />
         <Route path="/free-tools/tweet-hook-generator" element={<TweetHookGeneratorPage />} />
         <Route path="/free-tools/tone-analyzer" element={<ToneAnalyzerPage />} />
         <Route path="/free-tools/instagram-carousel-generator" element={<InstagramCarouselGenerator />} />
