@@ -34,7 +34,7 @@ export default function InteractiveDemo() {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Failed to connect to the AI server.');
             }
-            
+
             const data = await response.json();
             setResult(data.text);
 
@@ -62,9 +62,9 @@ export default function InteractiveDemo() {
                     </form>
 
                     {isLoading && <div className="text-center p-8"><div className="loader mx-auto"></div></div>}
-                    
+
                     {result && <StreamingResult result={result} isLoading={isLoading} />}
-                    
+
                     {hasGenerated && !isLoading && (
                         <div className="mt-6 text-center bg-purple-900/30 p-4 rounded-lg">
                             <h4 className="font-bold">This is just 1% of the power.</h4>
