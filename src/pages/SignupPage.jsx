@@ -15,12 +15,16 @@ export default function SignupPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [searchParams] = useSearchParams();
     const referralCode = searchParams.get('ref');
+    const niche = searchParams.get('niche'); // <-- NEW: Get the niche from the URL
 
     useEffect(() => {
         if (referralCode) {
             toast.info("Welcome! A referral bonus will be applied to your account.");
         }
-    }, [referralCode]);
+        if (niche) {
+            toast.info(`Welcome, ${niche.replace('-', ' ')} professional!`);
+        }
+    }, [referralCode, niche]);
 
     const handleSignup = async (event) => {
         event.preventDefault();
@@ -29,7 +33,7 @@ export default function SignupPage() {
             const response = await fetch(`${backendUrl}/api/users/register`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, password, referralCode }),
+                body: JSON.stringify({ email, password, referralCode, niche }), // <-- NEW: Send the niche
             });
             const data = await response.json();
             if (response.ok) {
