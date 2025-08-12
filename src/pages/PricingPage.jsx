@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from 'framer-motion';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { toast } from 'sonner'; // <-- THIS IS THE CRITICAL FIX
 
 // IMPORTANT: Make sure these are your real Stripe Payment Links
 const starterPlanLink = "https://buy.stripe.com/YOUR_STARTER_LINK_HERE";
@@ -12,17 +13,20 @@ const proPlanLink = "https://buy.stripe.com/YOUR_PRO_LINK_HERE";
 
 const PricingTier = ({ title, price, description, features, buttonText, isFeatured, isFree = false }) => {
     const navigate = useNavigate();
-    const link = isFeatured ? proPlanLink : starterPlanLink;
 
     const handleClick = () => {
+        const link = isFeatured ? proPlanLink : starterPlanLink;
+        
         if (isFree) {
             navigate('/signup');
             return;
         }
+
         const token = localStorage.getItem('token');
         if (token) {
             window.location.href = link;
         } else {
+            // This is where the 'toast' was missing
             toast.info('Please create a free account first to upgrade.');
             navigate('/signup');
         }
@@ -52,7 +56,7 @@ const PricingTier = ({ title, price, description, features, buttonText, isFeatur
     );
 };
 
-function PricingPage() {
+export default function PricingPage() {
     return (
         <div className="w-full min-h-screen bg-slate-900 text-white flex flex-col font-sans">
             <Header />
@@ -93,5 +97,3 @@ function PricingPage() {
         </div>
     );
 }
-
-export default PricingPage;
