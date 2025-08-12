@@ -5,12 +5,25 @@ import { toast } from "sonner";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-// Create a context to share user data with all child components
+// Create context to share user data
 const UserContext = createContext(null);
 export const useUser = () => useContext(UserContext);
 
 const NavLink = ({ to, children, isSettings = false }) => {
-    // ... (NavLink component code - no changes)
+    const location = useLocation();
+    const isActive = location.pathname === to;
+    return (
+        <Link
+            to={to}
+            className={`block px-3 py-2 rounded-lg transition ${
+                isActive
+                    ? 'bg-purple-600 text-white'
+                    : 'text-slate-300 hover:bg-slate-800'
+            } ${isSettings ? 'mt-auto' : ''}`}
+        >
+            {children}
+        </Link>
+    );
 };
 
 export default function AppLayout() {
@@ -21,21 +34,28 @@ export default function AppLayout() {
     useEffect(() => {
         const fetchData = async () => {
             const token = localStorage.getItem('token');
+            if (!token) {
+                setIsLoading(false);
+                return;
+            }
             try {
-                // Fetch user data
-                const userResponse = await fetch(`${backendUrl}/api/users/me`, { headers: { 'x-auth-token': token } });
-                if (!userResponse.ok) throw new Error("Failed to fetch user data.");
-                const userData = await userResponse.json();
+                // Fetch user
+                const userRes = await fetch(`${backendUrl}/api/users/me`, {
+                    headers: { 'x-auth-token': token }
+                });
+                if (!userRes.ok) throw new Error("Failed to fetch user data.");
+                const { user: userData } = await userRes.json();
                 setUser(userData);
 
                 // Fetch history
-                const historyResponse = await fetch(`${backendUrl}/api/ai/history`, { headers: { 'x-auth-token': token } });
-                if (!historyResponse.ok) throw new Error("Failed to fetch history.");
-                const historyData = await historyResponse.json();
+                const historyRes = await fetch(`${backendUrl}/api/ai/history`, {
+                    headers: { 'x-auth-token': token }
+                });
+                if (!historyRes.ok) throw new Error("Failed to fetch history.");
+                const historyData = await historyRes.json();
                 setHistory(historyData);
-
-            } catch (error) {
-                toast.error(error.message);
+            } catch (err) {
+                toast.error(err.message);
             } finally {
                 setIsLoading(false);
             }
@@ -44,7 +64,11 @@ export default function AppLayout() {
     }, []);
 
     if (isLoading) {
-        return <div className="w-full h-screen bg-slate-900 flex justify-center items-center text-white">Loading Your Workspace...</div>;
+        return (
+            <div className="w-full h-screen bg-slate-900 flex justify-center items-center text-white">
+                Loading Your Workspace...
+            </div>
+        );
     }
 
     return (
@@ -53,8 +77,43 @@ export default function AppLayout() {
                 <Header />
                 <div className="grid grid-cols-[240px_1fr] h-[calc(100vh-61px)] overflow-hidden">
                     <aside className="glass-card m-2 rounded-lg p-4 flex flex-col justify-between">
-                        {/* ... (Your full sidebar JSX with Workspace, Tools, History, and Settings sections) */}
+                        {/* Workspace Links */}
+                        <div>
+                            <h2 className="text-sm text-slate-400 uppercase mb-2">Workspace</h2>
+                            <NavLink to="/dashboard">Dashboard</NavLink>
+                            <NavLink to="/social-studio">Social Studio</NavLink>
+                            <NavLink to="/scheduler">Scheduler</NavLink>
+                        </div>
+
+                        {/* Tools */}
+                        <div>
+                            <h2 className="text-sm text-slate-400 uppercase mt-6 mb-2">Tools</h2>
+                            <NavLink to="/content-tools">Content Tools</NavLink>
+                            <NavLink to="/analytics">Analytics</NavLink>
+                        </div>
+
+                        {/* History */}
+                        <div>
+                            <h2 className="text-sm text-slate-400 uppercase mt-6 mb-2">History</h2>
+                            <div className="space-y-1 max-h-40 overflow-y-auto">
+                                {history.length > 0 ? (
+                                    history.map((item) => (
+                                        <div key={item._id} className="text-xs text-slate-300 truncate">
+                                            {item.prompt || 'Untitled'}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-xs text-slate-500">No history yet.</p>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Settings */}
+                        <NavLink to="/settings" isSettings>
+                            Settings
+                        </NavLink>
                     </aside>
+
                     <main className="p-4 md:p-6 overflow-y-auto">
                         <Outlet />
                     </main>
