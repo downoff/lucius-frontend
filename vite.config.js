@@ -2,8 +2,10 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from "path"
 import fs from 'fs';
-// This now correctly requires your .cjs data file
+
+// This now correctly requires your .cjs data files
 const { niches } = require('./src/data/niches.cjs');
+const { posts } = require('./src/data/posts.cjs'); // <-- NEW: Import blog posts
 
 // --- The Final "Sentient" SEO Plugin ---
 const generateSitemapPlugin = () => {
@@ -22,13 +24,19 @@ const generateSitemapPlugin = () => {
         { loc: `${baseUrl}/contact`, priority: '0.70' },
       ];
 
-      // This will now correctly map over your entire list of 100+ niches
+      // Programmatic SEO niche pages
       const pSEO_Pages = niches.map(niche => ({
         loc: `${baseUrl}/tools/${niche.slug}`,
         priority: '0.80'
       }));
 
-      const allPages = [...staticPages, ...pSEO_Pages];
+      // Blog pages
+      const blogPages = posts.map(post => ({
+        loc: `${baseUrl}/blog/${post.slug}`,
+        priority: '0.90'
+      }));
+
+      const allPages = [...staticPages, ...pSEO_Pages, ...blogPages]; // <-- NEW
 
       const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
