@@ -47,8 +47,8 @@ import ContentHubPage from './pages/ContentHubPage';
 import ConversationPage from './pages/ConversationPage';
 import CanvasPage from './pages/CanvasPage';
 
-// NEW Shopify niche lead magnet
-import ShopifyToolPage from './pages/ShopifyToolPage';
+// NEW Shopify Landing Page (niche focus)
+import ShopifyLandingPage from './pages/ShopifyLandingPage';
 
 import { Toaster } from "@/components/ui/sonner";
 
@@ -56,11 +56,11 @@ function App() {
   return (
     <>
       <Routes>
-        {/* Main Marketing Entry */}
-        <Route path="/" element={<LandingPage />} />
+        {/* Shopify page as main entry (test phase) */}
+        <Route path="/" element={<ShopifyLandingPage />} />
 
-        {/* Shopify Tool as public niche entry point */}
-        <Route path="/shopify" element={<ShopifyToolPage />} />
+        {/* Original marketing entry */}
+        <Route path="/landing" element={<LandingPage />} />
 
         {/* Public Tools / Content */}
         <Route path="/s/:shareId" element={<SharePage />} />
